@@ -1109,6 +1109,28 @@ body.slide-fullframe .slide-5-overlay {
     justify-content: center;
   }
 
+  /* Pagination: größere Tap-Fläche */
+  .grid-step-label {
+    padding: 12px 8px;
+  }
+
+  /* Scatter-Galerie auf Mobile: statisches Flex-Layout */
+  .slide-scatter-static {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: calc(var(--border) * 2) var(--border);
+    overflow-y: auto;
+  }
+
+  .slide-scatter-static .scatter-img {
+    position: static;
+    width: 130px;
+    height: auto;
+  }
+
   /* Pagination kompakter */
   .pagination {
     gap: 6px;

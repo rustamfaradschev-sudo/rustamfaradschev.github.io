@@ -354,18 +354,26 @@
         </section>`;
         }
         if (entry.layout === 'scatter') {
-          var imgSize = 160;
+          var isMobileScatter = window.innerWidth <= 900;
+          var imgSize = isMobileScatter ? 130 : 160;
           var cw = window.innerWidth  - 160;
           var ch = window.innerHeight - 160;
           var scatterImgs = entry.images.map(function (src) {
+            if (isMobileScatter) {
+              var rot = (Math.random() - 0.5) * 14;
+              return `<img src="${src}" alt="${project.title}" class="scatter-img"
+                style="transform:rotate(${rot}deg);"
+                onerror="this.style.opacity='0.2'">`;
+            }
             var rx = Math.random() * Math.max(0, cw - imgSize);
             var ry = Math.random() * Math.max(0, ch - imgSize);
             return `<img src="${src}" alt="${project.title}" class="scatter-img"
               style="left:${rx}px;top:${ry}px;width:${imgSize}px;"
               onerror="this.style.opacity='0.2'">`;
           }).join('');
+          var sectionClass = isMobileScatter ? 'slide slide-scatter-static' : 'slide slide-scatter';
           return `
-        <section id="slide-${num}" class="slide slide-scatter">
+        <section id="slide-${num}" class="${sectionClass}">
           ${scatterImgs}
         </section>`;
         }
@@ -457,17 +465,20 @@
     var cols     = (window.gridAPI && window.gridAPI.getCols()) || 15;
     var spacingX = (window.innerWidth - 2 * border) / (cols - 1);
     var dotY     = border; // Dots der ersten Zeile sitzen bei y = border
+    var isMobile = window.innerWidth <= 900;
 
     for (var i = 0; i < TOTAL_SLIDES; i++) {
-      var dotX    = border + i * spacingX;
+      var dotX    = isMobile
+        ? border + (i / (TOTAL_SLIDES - 1)) * (window.innerWidth - 2 * border)
+        : border + i * spacingX;
       var isFirst = (i === 0);
 
-      // --- Label rechts vom Dot ---
+      // --- Label rechts vom Dot (Desktop) / zentriert (Mobile) ---
       var label = document.createElement('span');
       label.className       = 'grid-step-label' + (isFirst ? ' active' : '');
       label.textContent     = String(i + 1).padStart(2, '0');
       label.dataset.slide   = String(i + 1);
-      label.style.left      = (dotX + 14) + 'px';
+      label.style.left      = (dotX + (isMobile ? -14 : 14)) + 'px';
       label.style.top       = dotY + 'px';
 
       // Klick → Slide wechseln.
@@ -484,14 +495,16 @@
       document.body.appendChild(label);
       gridStepLabels.push(label);
 
-      // --- Grüner Kreis um den Dot ---
-      var ring = document.createElement('div');
-      ring.className   = 'grid-step-ring' + (isFirst ? ' active' : '');
-      ring.style.left  = dotX + 'px';
-      ring.style.top   = dotY + 'px';
+      // --- Grüner Kreis um den Dot (nur Desktop) ---
+      if (!isMobile) {
+        var ring = document.createElement('div');
+        ring.className   = 'grid-step-ring' + (isFirst ? ' active' : '');
+        ring.style.left  = dotX + 'px';
+        ring.style.top   = dotY + 'px';
 
-      document.body.appendChild(ring);
-      gridStepRings.push(ring);
+        document.body.appendChild(ring);
+        gridStepRings.push(ring);
+      }
     }
   }
 
@@ -539,7 +552,25 @@
   }
 
   // -----------------------------------------------------------
-  // 8. Klick links/rechts im Seitenbereich
+  // 8a. Touch-Swipe-Navigation (Mobile)
+  // -----------------------------------------------------------
+  function initSwipe() {
+    var startX = 0, startY = 0;
+    document.addEventListener('touchstart', function (e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - startX;
+      var dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
+      if (dx < 0) { goToSlide(currentSlide + 1); }
+      else        { goToSlide(currentSlide - 1); }
+    }, { passive: true });
+  }
+
+  // -----------------------------------------------------------
+  // 8b. Klick links/rechts im Seitenbereich
   // -----------------------------------------------------------
   function initClickAreas() {
     document.addEventListener('click', function (e) {
@@ -595,6 +626,7 @@
     buildGridPagination();
     initKeyboard();
     initClickAreas();
+    initSwipe();
     window.addEventListener('resize', onStepResize);
   }
 
