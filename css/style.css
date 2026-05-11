@@ -1171,9 +1171,9 @@ body.slide-fullframe .slide-5-overlay {
   .slide1-title-row                   { margin-bottom: 20px; }
   .slide1-desc                        { font-size: 10pt; line-height: 1.8; }
 
-  /* === IMAGESHOW — größere Touch-Fläche für Pfeile === */
-  .imgshow-btn     { padding: 12px; }
-  .imgshow-btn svg { width: 28px; }
+  /* === IMAGESHOW — Pfeile ausblenden, Auto-Cycle via JS === */
+  .imgshow-btn     { display: none; }
+  .imgshow-display { width: 100%; }
 
   /* === DUAL-LAYOUT — kein min-height pro Panel === */
   .slide.active.slide-dual {
