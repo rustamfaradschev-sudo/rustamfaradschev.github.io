@@ -336,6 +336,19 @@
         </section>`;
         }
         if (entry.layout === 'table') {
+          var isMobileTable = window.innerWidth <= 900;
+          if (isMobileTable) {
+            var tableImgs = entry.images.map(function (src) {
+              var rot = (Math.random() - 0.5) * 18;
+              return `<img src="${src}" alt="${project.title}" class="table-img"
+                style="transform:rotate(${rot}deg);"
+                onerror="this.style.opacity='0.2'">`;
+            }).join('');
+            return `
+        <section id="slide-${num}" class="slide slide-table-static">
+          ${tableImgs}
+        </section>`;
+          }
           var tImgW = 300;
           var tImgH = 240;
           var tcw = window.innerWidth;

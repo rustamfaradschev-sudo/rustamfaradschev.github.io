@@ -1140,6 +1140,97 @@ body.slide-fullframe .slide-5-overlay {
     width: 22px;
     height: 22px;
   }
+
+  /* === SLIDE 1 — Split-Layout aus 100vh-Käfig befreien === */
+  .slide.active.slide-1-split {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .slide-1-left {
+    flex: none;
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
+    padding: calc(var(--border) + 40px) var(--border) 0;
+    gap: 20px;
+  }
+
+  .slide-1-right {
+    flex: none;
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
+    padding: var(--border) var(--border) calc(var(--border) + 40px);
+  }
+
+  .slide-1-right .project-title-large { font-size: clamp(16pt, 5vw, 34pt); }
+  .slide-1-right .project-year        { font-size: 10pt; }
+  .slide1-title-row                   { margin-bottom: 20px; }
+  .slide1-desc                        { font-size: 10pt; line-height: 1.8; }
+
+  /* === IMAGESHOW — größere Touch-Fläche für Pfeile === */
+  .imgshow-btn     { padding: 12px; }
+  .imgshow-btn svg { width: 28px; }
+
+  /* === DUAL-LAYOUT — kein min-height pro Panel === */
+  .slide.active.slide-dual {
+    overflow-y: auto;
+    padding: calc(var(--border) + 40px) 0 calc(var(--border) + 40px);
+  }
+
+  .slide-panel {
+    min-height: unset;
+    padding: 0 var(--border);
+  }
+
+  .slide-panel-img {
+    width: 100%;
+    height: auto;
+    max-height: 45vh;
+  }
+
+  /* === STACK-RIGHT — untereinander stapeln === */
+  .slide.active.slide-stack-right { overflow-y: auto; }
+
+  .sr-left {
+    height: auto;
+    overflow-y: visible;
+    padding: calc(var(--border) + 40px) var(--border) var(--border);
+  }
+
+  .sr-right {
+    flex: none;
+    width: 100%;
+    height: auto;
+    padding: 0 var(--border) calc(var(--border) + 40px);
+  }
+
+  .sr-right-img { max-height: 50vh; }
+
+  /* === TABLE-LAYOUT — statisches Raster auf Mobile === */
+  .slide-table-static {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: calc(var(--border) + 40px) var(--border) calc(var(--border) + 40px);
+    overflow-y: auto;
+  }
+
+  .slide-table-static .table-img {
+    position: static;
+    width: 140px;
+    height: auto;
+  }
+
+  .slide-table-static .table-img:active {
+    transform: rotate(0deg) scale(1.15) !important;
+    box-shadow: 8px 16px 48px rgba(0,0,0,0.38);
+  }
 }
 
 /* === SLIDE DARK MODE (Slide 5 von forest-souvenirs) ===
