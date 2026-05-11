@@ -1099,10 +1099,17 @@ body.slide-fullframe .slide-5-overlay {
     width: 80%;
   }
 
-  /* Projekte-Grid: 2 Spalten × N Zeilen — links Name+Jahr, rechts Icon */
+  /* Projekte-Grid: 2 Spalten, infinite scroll — grid-template-rows via JS */
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    pointer-events: all;
+  }
+
+  .projects-grid::-webkit-scrollbar {
+    display: none;
   }
 
   .project-label {

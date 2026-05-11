@@ -50,46 +50,28 @@
 
       var isMobile = (screen.width <= 900);
 
-      projects.forEach(function (project, index) {
-        var iconCol, labelCol, iconRow, labelRow;
-
-        if (isMobile) {
-          labelCol = 1;
-          iconCol  = 2;
-          labelRow = index + 1;
-          iconRow  = index + 1;
-        } else {
-          var projectRow = Math.floor(index / 14);
-          iconCol  = (index % 14) + 1;
-          labelCol = (index % 14) + 1;
-          iconRow  = projectRow * 2 + 1;
-          labelRow = projectRow * 2 + 2;
-        }
-
+      function addEntry(project, row) {
         var item = document.createElement('a');
         item.className = 'project-item';
-        item.setAttribute('data-slot', index + 1);
         item.href = 'project.html?id=' + project.slug;
         item.setAttribute('aria-label', project.title + ' ' + project.year);
 
         var icon = document.createElement('div');
         icon.className = 'project-icon';
-        icon.style.gridColumn = iconCol + ' / ' + (iconCol + 1);
-        icon.style.gridRow    = iconRow + ' / ' + (iconRow + 1);
+        icon.style.gridColumn = '2 / 3';
+        icon.style.gridRow    = row + ' / ' + (row + 1);
         icon.innerHTML = '<img src="' + project.icon + '" alt="' + project.title + ' Icon" onerror="this.style.opacity=\'0.3\'">';
 
         var label = document.createElement('div');
         label.className = 'project-label';
-        label.style.gridColumn = labelCol + ' / ' + (labelCol + 1);
-        label.style.gridRow    = labelRow + ' / ' + (labelRow + 1);
+        label.style.gridColumn = '1 / 2';
+        label.style.gridRow    = row + ' / ' + (row + 1);
         label.innerHTML = '<h3>' + (project.displayTitle || project.title) + '</h3><span class="project-year">' + project.year + '</span>';
 
         item.appendChild(icon);
         item.appendChild(label);
         grid.appendChild(item);
 
-        /* Hover: display:contents entfernt die Box des <a>, daher via JS
-           .hovered-Klasse auf Icon und Label setzen. */
         function setHover(on) {
           icon.classList[on ? 'add' : 'remove']('hovered');
           label.classList[on ? 'add' : 'remove']('hovered');
@@ -98,7 +80,75 @@
           el.addEventListener('mouseenter', function () { setHover(true); });
           el.addEventListener('mouseleave', function () { setHover(false); });
         });
-      });
+      }
+
+      if (isMobile) {
+        // Infinite scroll: 3 Kopien der Projektliste, scroll startet in der Mitte
+        var border = 40;
+        var rowH   = Math.floor((window.innerHeight - 2 * border) / projects.length);
+        var COPIES = 3;
+        var oneSet = rowH * projects.length;
+
+        grid.style.gridTemplateRows = 'repeat(' + (COPIES * projects.length) + ', ' + rowH + 'px)';
+
+        for (var copy = 0; copy < COPIES; copy++) {
+          projects.forEach(function (project, index) {
+            addEntry(project, copy * projects.length + index + 1);
+          });
+        }
+
+        // Zur mittleren Kopie springen
+        requestAnimationFrame(function () { grid.scrollTop = oneSet; });
+
+        // Loop: bei Annäherung an Rand zurück zur Mitte springen
+        grid.addEventListener('scroll', function () {
+          if (grid.scrollTop < rowH) {
+            grid.scrollTop += oneSet;
+          } else if (grid.scrollTop > oneSet * 2 - rowH) {
+            grid.scrollTop -= oneSet;
+          }
+        }, { passive: true });
+
+      } else {
+        // Desktop: F-System (14 × 7 Grid)
+        projects.forEach(function (project, index) {
+          var projectRow = Math.floor(index / 14);
+          var col        = (index % 14) + 1;
+          var iconRow    = projectRow * 2 + 1;
+          var labelRow   = projectRow * 2 + 2;
+
+          var item = document.createElement('a');
+          item.className = 'project-item';
+          item.setAttribute('data-slot', index + 1);
+          item.href = 'project.html?id=' + project.slug;
+          item.setAttribute('aria-label', project.title + ' ' + project.year);
+
+          var icon = document.createElement('div');
+          icon.className = 'project-icon';
+          icon.style.gridColumn = col + ' / ' + (col + 1);
+          icon.style.gridRow    = iconRow + ' / ' + (iconRow + 1);
+          icon.innerHTML = '<img src="' + project.icon + '" alt="' + project.title + ' Icon" onerror="this.style.opacity=\'0.3\'">';
+
+          var label = document.createElement('div');
+          label.className = 'project-label';
+          label.style.gridColumn = col + ' / ' + (col + 1);
+          label.style.gridRow    = labelRow + ' / ' + (labelRow + 1);
+          label.innerHTML = '<h3>' + (project.displayTitle || project.title) + '</h3><span class="project-year">' + project.year + '</span>';
+
+          item.appendChild(icon);
+          item.appendChild(label);
+          grid.appendChild(item);
+
+          function setHover(on) {
+            icon.classList[on ? 'add' : 'remove']('hovered');
+            label.classList[on ? 'add' : 'remove']('hovered');
+          }
+          [icon, label].forEach(function (el) {
+            el.addEventListener('mouseenter', function () { setHover(true); });
+            el.addEventListener('mouseleave', function () { setHover(false); });
+          });
+        });
+      }
     })();
   </script>
   <script src="js/transitions.js"></script>
