@@ -51,15 +51,17 @@
       var isMobile = (screen.width <= 900);
 
       projects.forEach(function (project, index) {
-        var col, iconRow, labelRow;
+        var iconCol, labelCol, iconRow, labelRow;
 
         if (isMobile) {
-          col = 1;
-          iconRow  = index * 2 + 1;
-          labelRow = index * 2 + 2;
+          labelCol = 1;
+          iconCol  = 2;
+          labelRow = index + 1;
+          iconRow  = index + 1;
         } else {
           var projectRow = Math.floor(index / 14);
-          col      = (index % 14) + 1;
+          iconCol  = (index % 14) + 1;
+          labelCol = (index % 14) + 1;
           iconRow  = projectRow * 2 + 1;
           labelRow = projectRow * 2 + 2;
         }
@@ -72,13 +74,13 @@
 
         var icon = document.createElement('div');
         icon.className = 'project-icon';
-        icon.style.gridColumn = col + ' / ' + (col + 1);
+        icon.style.gridColumn = iconCol + ' / ' + (iconCol + 1);
         icon.style.gridRow    = iconRow + ' / ' + (iconRow + 1);
         icon.innerHTML = '<img src="' + project.icon + '" alt="' + project.title + ' Icon" onerror="this.style.opacity=\'0.3\'">';
 
         var label = document.createElement('div');
         label.className = 'project-label';
-        label.style.gridColumn = col + ' / ' + (col + 1);
+        label.style.gridColumn = labelCol + ' / ' + (labelCol + 1);
         label.style.gridRow    = labelRow + ' / ' + (labelRow + 1);
         label.innerHTML = '<h3>' + (project.displayTitle || project.title) + '</h3><span class="project-year">' + project.year + '</span>';
 

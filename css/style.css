@@ -1099,10 +1099,14 @@ body.slide-fullframe .slide-5-overlay {
     width: 80%;
   }
 
-  /* Projekte-Grid: 2 Spalten × 6 Zeilen (Flächen zwischen 3 × 7 Dots) */
+  /* Projekte-Grid: 2 Spalten × N Zeilen — links Name+Jahr, rechts Icon */
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(6, 1fr);
+  }
+
+  .project-label {
+    justify-content: center;
   }
 
   /* Pagination kompakter */
