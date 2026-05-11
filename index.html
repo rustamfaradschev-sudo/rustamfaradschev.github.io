@@ -204,6 +204,20 @@
       fill: var(--color-accent);
     }
 
+    /* Touch-Feedback — Äquivalent zu Hover auf Touch-Geräten */
+    .proj-img-wrap:active {
+      transform: scale(1.04);
+    }
+    .proj-title-link:active .proj-title {
+      opacity: 0.65;
+    }
+    .proj-arrow:active {
+      transform: translateX(10px);
+    }
+    .proj-arrow:active svg circle {
+      fill: var(--color-accent);
+    }
+
     /* Strahling: Startwert für Ken Burns via JS angepasst */
     [data-slug="strahling"] .proj-image img {
       scale: 1.298;   /* 1.1 * 1.18 */
@@ -274,7 +288,7 @@
       }
       .proj-image {
         flex: none;
-        width: 70%;
+        width: 100%;
         padding: 0;
         will-change: opacity;
       }
@@ -285,7 +299,32 @@
       }
       .proj-image img { max-height: 40vh; }
       .proj-title   { font-size: clamp(16pt, 6vw, 34pt) !important; }
-      .proj-year    { font-size: clamp(8pt, 2.5vw, 12pt) !important; }
+      .proj-year    { font-size: clamp(10pt, 3vw, 12pt) !important; }
+
+      /* Float-Animation zu unruhig auf kleinen Screens */
+      .proj-scroll.is-visible .proj-image img {
+        animation: none;
+      }
+
+      /* Beschreibungstext lesbarer */
+      .proj-desc {
+        font-size: 11pt;
+        -webkit-line-clamp: 5;
+        line-height: 1.9;
+      }
+
+      /* Content-Abstand kompakter */
+      .proj-content { margin-top: 20px; }
+
+      /* Pfeil: Mindest-Tap-Target 44×44px */
+      .proj-arrow {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        margin-top: 24px;
+      }
+      .proj-arrow svg { width: 36px; }
     }
 
   </style>
