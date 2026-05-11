@@ -1179,8 +1179,8 @@ body.slide-fullframe .slide-5-overlay {
   .slide1-desc                        { font-size: 10pt; line-height: 1.8; }
 
   /* === IMAGESHOW — Pfeile ausblenden, Auto-Cycle via JS === */
-  .imgshow-btn     { display: none; }
-  .imgshow-display { width: 100%; }
+  .slide-imgshow .imgshow-btn { display: none !important; }
+  .imgshow-display             { width: 100%; }
 
   /* === DUAL-LAYOUT — kein min-height pro Panel === */
   .slide.active.slide-dual {

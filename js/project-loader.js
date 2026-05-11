@@ -118,7 +118,7 @@
       imgs[idx].classList.remove('active');
       idx = (idx + 1) % imgs.length;
       imgs[idx].classList.add('active');
-    }, 700);
+    }, 1000);
   }
 
   function startScatter(container) {
