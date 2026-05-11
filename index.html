@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rustam Faradschev — Product Design</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    #landing-container {
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Projekt-Sektion: volle Viewport-Höhe, Bild links / Text rechts */
+    .proj-scroll {
+      display: flex;
+      align-items: stretch;
+      min-height: 100vh;
+    }
+
+    .proj-sticky {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Bild-Box: exakt linke 50% */
+    .proj-image {
+      flex: 0 0 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8vh 4%;
+      opacity: 0;
+      will-change: transform, opacity;
+      transition: opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Wrapper: clippt Ken Burns + Hover-Scale */
+    .proj-img-wrap {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .proj-image:hover .proj-img-wrap {
+      transform: scale(1.04);
+    }
+
+    .proj-image img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      display: block;
+      scale: 1.18;
+      will-change: scale;
+    }
+
+    /* Float + leichte natürliche Rotation */
+    @keyframes proj-float {
+      0%   { translate: 0 0px;    rotate:  0.2deg; }
+      40%  { translate: 0 -15px;  rotate: -0.35deg; }
+      75%  { translate: 0 -12px;  rotate:  0.15deg; }
+      100% { translate: 0 0px;    rotate:  0.2deg; }
+    }
+
+    .proj-scroll.is-visible .proj-image img {
+      animation: proj-float 5s ease-in-out infinite;
+    }
+
+    /* Text-Box: exakt rechte 50% */
+    .proj-text {
+      flex: 0 0 55%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8vh 14% 8vh 1%;
+      opacity: 0;
+      transform: translateY(36px);
+      will-change: transform, opacity;
+      transition: opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s,
+                  transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.12s;
+    }
+
+    /* Visible state — ausgelöst per IntersectionObserver */
+    .proj-scroll.is-visible .proj-image {
+      opacity: 1;
+    }
+
+    .proj-scroll.is-visible .proj-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* prefers-reduced-motion: Animationen deaktivieren */
+    @media (prefers-reduced-motion: reduce) {
+      .proj-image,
+      .proj-text {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .proj-image img {
+        scale: 1;
+        filter: none;
+        transition: none;
+        animation: none;
+      }
+    }
+
+    /* Weißer Schild hinter Text-Spalte (deckt Grid-Punkte ab) */
+    .proj-text-shield {
+      display: none;
+    }
+
+    /* Titel-Zeile: Titel + Jahr auf gemeinsamer Grundlinie */
+    .proj-title-link {
+      display: block;
+      text-decoration: none;
+    }
+
+    .proj-title-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+    }
+
+    .proj-title {
+      font-family: 'Sligoil Micro', 'Courier New', Courier, monospace;
+      font-weight: 400;
+      font-size: clamp(11pt, 3.2vw, 64pt);
+      line-height: 1.0;
+      letter-spacing: 0.02em;
+      color: var(--color-text);
+      margin: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .proj-title-link:hover .proj-title {
+      opacity: 0.65;
+    }
+
+    .proj-year {
+      font-family: 'Sligoil Micro', 'Courier New', Courier, monospace;
+      font-size: clamp(6pt, 0.68vw, 13pt);
+      letter-spacing: 0.08em;
+      color: var(--color-text);
+      white-space: nowrap;
+    }
+
+    .proj-content {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .proj-desc {
+      font-size: clamp(7pt, 0.8vw, 13pt);
+      line-height: 2.28;
+      letter-spacing: 0.03em;
+      color: var(--color-text);
+      max-width: 100%;
+      display: -webkit-box;
+      -webkit-line-clamp: 9;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Pfeil-Link */
+    .proj-arrow {
+      display: inline-block;
+      margin-top: 48px;
+      align-self: center;
+      text-decoration: none;
+      transition: transform 0.35s ease;
+    }
+
+    .proj-arrow:hover {
+      transform: translateX(10px);
+    }
+
+    .proj-arrow svg {
+      display: block;
+      width: clamp(21px, 2.6vw, 52px);
+      height: auto;
+      overflow: visible;
+    }
+
+    .proj-arrow svg circle {
+      fill: var(--color-text);
+      transition: fill 0.3s ease;
+    }
+
+    .proj-arrow:hover svg circle {
+      fill: var(--color-accent);
+    }
+
+    /* Strahling: Startwert für Ken Burns via JS angepasst */
+    [data-slug="strahling"] .proj-image img {
+      scale: 1.298;   /* 1.1 * 1.18 */
+    }
+
+    /* === SPLASH — Intro-Animation Grün → Weiß === */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #16A34A;
+      z-index: 9999;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      #splash { transition: opacity 0.96s ease; }
+    }
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Weiße Gitterpunkte im Splash */
+    #splash-dot-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .splash-dot {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #ffffff;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* === SEITEN-ÜBERGANG — grüner Overlay beim Absprung === */
+    #page-out {
+      position: fixed;
+      inset: 0;
+      background: #16A34A;
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #page-out-dots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      #page-out { transition: opacity 0.96s ease; }
+    }
+
+    /* === MOBILE — gestapeltes Layout === */
+    @media (max-width: 900px) {
+      .proj-sticky {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: var(--border);
+        padding-top: calc(var(--border) + 52px);
+        gap: 28px;
+      }
+      .proj-image {
+        flex: none;
+        width: 70%;
+        padding: 0;
+        will-change: opacity;
+      }
+      .proj-text {
+        flex: none;
+        width: 100%;
+        padding: 0;
+      }
+      .proj-image img { max-height: 40vh; }
+      .proj-title   { font-size: clamp(16pt, 6vw, 34pt) !important; }
+      .proj-year    { font-size: clamp(8pt, 2.5vw, 12pt) !important; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="splash">
+    <div id="splash-dot-grid"></div>
+  </div>
+
+  <div id="page-out">
+    <div id="page-out-dots"></div>
+  </div>
+
+  <div id="dot-grid"></div>
+
+  <nav>
+    <div class="nav-row">
+      <a href="index.html" class="active">RUSTAM</a>
+      <a href="about.html">ABOUT</a>
+    </div>
+    <div class="nav-row">
+      <a href="projects.html">PROJECTS</a>
+      <a href="contact.html">CONTACT</a>
+    </div>
+  </nav>
+
+  <main id="landing-container">
+    <div style="height: 100vh;"></div>
+  </main>
+
+  <script src="js/projects.js"></script>
+  <script src="js/grid.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var container = document.getElementById('landing-container');
+    if (!container || typeof projects === 'undefined') return;
+
+    // === PFEIL SVG (inline, damit CSS circle-Animation funktioniert) ===
+    var ARROW_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.02 69.54" aria-hidden="true">' +
+      '<circle cx="66.99" cy="2.3" r="2.3"/><circle cx="72.4" cy="2.3" r="2.3"/>' +
+      '<circle cx="56.17" cy="7.71" r="2.3"/><circle cx="61.58" cy="7.71" r="2.3"/><circle cx="66.99" cy="7.71" r="2.3"/><circle cx="72.4" cy="7.71" r="2.3"/>' +
+      '<circle cx="61.58" cy="13.12" r="2.3"/><circle cx="66.99" cy="13.12" r="2.3"/><circle cx="72.4" cy="13.12" r="2.3"/><circle cx="77.81" cy="13.12" r="2.3"/>' +
+      '<circle cx="66.99" cy="18.54" r="2.3"/><circle cx="72.4" cy="18.54" r="2.3"/><circle cx="77.81" cy="18.54" r="2.3"/>' +
+      '<circle cx="72.4" cy="23.95" r="2.3"/><circle cx="77.81" cy="23.95" r="2.3"/><circle cx="83.22" cy="23.95" r="2.3"/><circle cx="88.63" cy="23.95" r="2.3"/>' +
+      '<circle cx="2.3" cy="29.36" r="2.3"/><circle cx="7.71" cy="29.36" r="2.3"/><circle cx="13.12" cy="29.36" r="2.3"/><circle cx="18.54" cy="29.36" r="2.3"/>' +
+      '<circle cx="23.71" cy="29.36" r="2.3"/><circle cx="29.12" cy="29.36" r="2.3"/><circle cx="34.53" cy="29.36" r="2.3"/><circle cx="39.94" cy="29.36" r="2.3"/>' +
+      '<circle cx="45.35" cy="29.36" r="2.3"/><circle cx="50.76" cy="29.36" r="2.3"/><circle cx="56.17" cy="29.36" r="2.3"/><circle cx="61.58" cy="29.36" r="2.3"/>' +
+      '<circle cx="66.99" cy="29.36" r="2.3"/><circle cx="72.4" cy="29.36" r="2.3"/><circle cx="77.81" cy="29.36" r="2.3"/><circle cx="83.22" cy="29.36" r="2.3"/>' +
+      '<circle cx="88.63" cy="29.36" r="2.3"/><circle cx="94.05" cy="29.36" r="2.3"/><circle cx="99.46" cy="29.36" r="2.3"/>' +
+      '<circle cx="2.3" cy="34.77" r="2.3"/><circle cx="7.71" cy="34.77" r="2.3"/><circle cx="13.12" cy="34.77" r="2.3"/><circle cx="18.54" cy="34.77" r="2.3"/>' +
+      '<circle cx="23.71" cy="34.77" r="2.3"/><circle cx="29.12" cy="34.77" r="2.3"/><circle cx="34.53" cy="34.77" r="2.3"/><circle cx="39.94" cy="34.77" r="2.3"/>' +
+      '<circle cx="45.35" cy="34.77" r="2.3"/><circle cx="50.76" cy="34.77" r="2.3"/><circle cx="56.17" cy="34.77" r="2.3"/><circle cx="61.58" cy="34.77" r="2.3"/>' +
+      '<circle cx="66.99" cy="34.77" r="2.3"/><circle cx="72.4" cy="34.77" r="2.3"/><circle cx="77.81" cy="34.77" r="2.3"/><circle cx="83.22" cy="34.77" r="2.3"/>' +
+      '<circle cx="88.63" cy="34.77" r="2.3"/><circle cx="94.05" cy="34.77" r="2.3"/><circle cx="99.46" cy="34.77" r="2.3"/><circle cx="104.72" cy="34.77" r="2.3"/>' +
+      '<circle cx="2.3" cy="40.18" r="2.3"/><circle cx="7.71" cy="40.18" r="2.3"/><circle cx="13.12" cy="40.18" r="2.3"/><circle cx="18.54" cy="40.18" r="2.3"/>' +
+      '<circle cx="23.71" cy="40.18" r="2.3"/><circle cx="29.12" cy="40.18" r="2.3"/><circle cx="34.53" cy="40.18" r="2.3"/><circle cx="39.94" cy="40.18" r="2.3"/>' +
+      '<circle cx="45.35" cy="40.18" r="2.3"/><circle cx="50.76" cy="40.18" r="2.3"/><circle cx="56.17" cy="40.18" r="2.3"/><circle cx="61.58" cy="40.18" r="2.3"/>' +
+      '<circle cx="66.99" cy="40.18" r="2.3"/><circle cx="72.4" cy="40.18" r="2.3"/><circle cx="77.81" cy="40.18" r="2.3"/><circle cx="83.22" cy="40.18" r="2.3"/>' +
+      '<circle cx="88.63" cy="40.18" r="2.3"/><circle cx="94.05" cy="40.18" r="2.3"/><circle cx="99.46" cy="40.18" r="2.3"/>' +
+      '<circle cx="72.4" cy="45.59" r="2.3"/><circle cx="77.81" cy="45.59" r="2.3"/><circle cx="83.22" cy="45.59" r="2.3"/><circle cx="88.63" cy="45.59" r="2.3"/>' +
+      '<circle cx="66.99" cy="51" r="2.3"/><circle cx="72.4" cy="51" r="2.3"/><circle cx="77.81" cy="51" r="2.3"/>' +
+      '<circle cx="56.17" cy="56.41" r="2.3"/><circle cx="61.58" cy="56.41" r="2.3"/><circle cx="66.99" cy="56.41" r="2.3"/><circle cx="72.4" cy="56.41" r="2.3"/><circle cx="77.81" cy="56.41" r="2.3"/>' +
+      '<circle cx="56.17" cy="61.82" r="2.3"/><circle cx="61.58" cy="61.82" r="2.3"/><circle cx="66.99" cy="61.82" r="2.3"/><circle cx="72.4" cy="61.82" r="2.3"/>' +
+      '<circle cx="66.99" cy="67.23" r="2.3"/><circle cx="72.4" cy="67.23" r="2.3"/>' +
+      '</svg>';
+
+    // === DOM AUFBAUEN ===
+    projects.forEach(function (proj) {
+      var desc = (proj.description || '').split('\n\n')[0];
+      var projectUrl = 'project.html?id=' + proj.slug;
+
+      var scrollEl = document.createElement('div');
+      scrollEl.className = 'proj-scroll';
+      scrollEl.dataset.slug = proj.slug;
+
+      var stickyEl = document.createElement('div');
+      stickyEl.className = 'proj-sticky';
+
+      stickyEl.innerHTML =
+        '<div class="proj-image">' +
+          '<a class="proj-img-wrap" href="' + projectUrl + '" aria-label="' + proj.title + ' öffnen">' +
+            '<img src="' + (proj.preview || (Array.isArray(proj.slides[0]) ? proj.slides[0][0] : proj.slides[0])) + '" alt="' + proj.title +
+            '" onerror="this.style.opacity=\'0.15\'">' +
+          '</a>' +
+        '</div>' +
+        '<div class="proj-text">' +
+          '<div class="proj-text-shield"></div>' +
+          '<a class="proj-title-link" href="' + projectUrl + '" style="position:relative;z-index:1">' +
+            '<div class="proj-title-row">' +
+              '<h2 class="proj-title">' + proj.title + '</h2>' +
+              '<span class="proj-year">' + proj.year + '</span>' +
+            '</div>' +
+          '</a>' +
+          '<div class="proj-content" style="position:relative;z-index:1">' +
+            '<p class="proj-desc">' + desc + '</p>' +
+            '<a class="proj-arrow" href="' + projectUrl + '" aria-label="' + proj.title + ' öffnen">' +
+              ARROW_SVG +
+            '</a>' +
+          '</div>' +
+        '</div>';
+
+      scrollEl.appendChild(stickyEl);
+      container.appendChild(scrollEl);
+    });
+
+    // === SCROLL EFFECTS: Entry / Parallax / Text-Fade ===
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isDesktop      = window.innerWidth > 900;
+    var allSections    = Array.from(document.querySelectorAll('.proj-scroll'));
+    var revealedSet    = [];
+
+    // Lerp-basierter Text-Fade + Ken Burns: sanfte Interpolation per RAF
+    var fadeTargets  = [];
+    var fadeCurrent  = [];
+    var kbTargets    = [];   // Ken Burns Ziel-Scale pro Sektion
+    var kbCurrent    = [];
+    var fadeRafId    = null;
+
+    allSections.forEach(function (sec) {
+      var isStrahling = sec.dataset.slug === 'strahling';
+      var initScale   = isStrahling ? 1.298 : 1.18;
+      fadeTargets.push(1); fadeCurrent.push(1);
+      kbTargets.push(initScale); kbCurrent.push(initScale);
+      var imgEl = sec.querySelector('.proj-image img');
+      if (imgEl) imgEl.style.scale = String(initScale);
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function fadeLoop() {
+      fadeRafId = null;
+      var stillRunning = false;
+
+      allSections.forEach(function (sec, i) {
+        var revealed = revealedSet.indexOf(sec) !== -1;
+
+        // Text-Fade
+        if (revealed) {
+          var ftNext = lerp(fadeCurrent[i], fadeTargets[i], 0.10);
+          if (Math.abs(ftNext - fadeTargets[i]) > 0.002) stillRunning = true;
+          fadeCurrent[i] = ftNext;
+          var textEl = sec.querySelector('.proj-text');
+          if (textEl) textEl.style.opacity = String(ftNext);
+        }
+
+        // Ken Burns (scroll-driven, beide Richtungen)
+        var kbNext = lerp(kbCurrent[i], kbTargets[i], 0.06);
+        if (Math.abs(kbNext - kbTargets[i]) > 0.0005) stillRunning = true;
+        kbCurrent[i] = kbNext;
+        var imgEl = sec.querySelector('.proj-image img');
+        if (imgEl) imgEl.style.scale = String(kbNext);
+      });
+
+      if (stillRunning) fadeRafId = requestAnimationFrame(fadeLoop);
+    }
+
+    function scheduleFade() {
+      if (!fadeRafId) fadeRafId = requestAnimationFrame(fadeLoop);
+    }
+
+    function updateScrollTargets() {
+      var vh = window.innerHeight;
+      allSections.forEach(function (sec, i) {
+        var rect = sec.getBoundingClientRect();
+        var mid  = rect.top + rect.height / 2;
+
+        // Parallax auf Bild (nur Desktop)
+        if (isDesktop) {
+          var imgEl = sec.querySelector('.proj-image');
+          if (imgEl) {
+            var offset = (vh / 2 - mid) * 0.06;
+            offset = Math.max(-35, Math.min(35, offset));
+            imgEl.style.transform = 'translateY(' + offset + 'px)';
+          }
+        }
+
+        var dist     = Math.abs(mid - vh / 2);
+        var deadZone = vh * 0.28;
+        var fadeZone = vh * 0.32;
+        var t        = dist < deadZone ? 0 : (dist - deadZone) / fadeZone;
+
+        // Ziel-Opacity: 100% Mitte → 15% außen
+        if (revealedSet.indexOf(sec) !== -1) {
+          fadeTargets[i] = Math.max(0.15, 1 - t);
+        }
+
+        // Ken Burns: 1.0 in der Mitte → 1.25 beim Ein-/Ausfahren
+        var isStrahling = sec.dataset.slug === 'strahling';
+        var kbMin = isStrahling ? 1.1  : 1.0;
+        var kbMax = isStrahling ? 1.298 : 1.18;
+        kbTargets[i] = kbMin + (kbMax - kbMin) * Math.min(1, t / 0.7);
+
+        scheduleFade();
+      });
+    }
+
+    if (!prefersReduced) {
+      var entryObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            entryObserver.unobserve(entry.target);
+            var idx = allSections.indexOf(entry.target);
+            var textEl = entry.target.querySelector('.proj-text');
+            if (textEl) {
+              setTimeout(function () {
+                textEl.style.transition = 'none';
+                fadeCurrent[idx] = 1;
+              }, 800);
+            }
+            revealedSet.push(entry.target);
+            scheduleFade();
+          }
+        });
+      }, { threshold: 0.12 });
+
+      allSections.forEach(function (el) { entryObserver.observe(el); });
+      window.addEventListener('scroll', updateScrollTargets, { passive: true });
+      updateScrollTargets();
+    } else {
+      allSections.forEach(function (el) {
+        el.classList.add('is-visible');
+        revealedSet.push(el);
+      });
+    }
+
+    // === SEITEN-ÜBERGANG: grüner Overlay beim Klick auf Projekt-Links ===
+    var pageOut = document.getElementById('page-out');
+
+    function navigateWithOverlay(url) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.location.href = url;
+        return;
+      }
+      pageOut.style.opacity = '1';
+      pageOut.style.pointerEvents = 'all';
+      setTimeout(function () { window.location.href = url; }, 800);
+    }
+
+    container.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href]');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (!href || href.charAt(0) === '#') return;
+      e.preventDefault();
+      navigateWithOverlay(href);
+    });
+
+    document.querySelector('nav').addEventListener('click', function (e) {
+      var link = e.target.closest('a[href]');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      navigateWithOverlay(href);
+    });
+
+  })();
+
+  // Splash + Page-Out: weiße Gitterpunkte generieren
+  (function () {
+    var isMobile = window.innerWidth <= 900;
+    var COLS   = isMobile ? 3  : 15;
+    var ROWS   = isMobile ? 7  : 8;
+    var BORDER = isMobile ? 40 : 80;
+    var W = window.innerWidth;
+    var H = window.innerHeight;
+
+    function buildDotGrid(container) {
+      var frag = document.createDocumentFragment();
+      for (var r = 0; r < ROWS; r++) {
+        for (var c = 0; c < COLS; c++) {
+          var dot = document.createElement('div');
+          dot.className = 'splash-dot';
+          dot.style.left = (BORDER + c * (W - 2 * BORDER) / Math.max(COLS - 1, 1)) + 'px';
+          dot.style.top  = (BORDER + r * (H - 2 * BORDER) / Math.max(ROWS - 1, 1)) + 'px';
+          frag.appendChild(dot);
+        }
+      }
+      container.appendChild(frag);
+    }
+
+    buildDotGrid(document.getElementById('splash-dot-grid'));
+    buildDotGrid(document.getElementById('page-out-dots'));
+
+    var splash = document.getElementById('splash');
+    setTimeout(function () {
+      splash.classList.add('fade-out');
+      splash.addEventListener('transitionend', function () {
+        splash.remove();
+      }, { once: true });
+    }, 640);
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1189 @@
+/* ============================================================
+   PORTFOLIO RUSTAM FARADSCHEV — Stylesheet
+   Eine Datei für das gesamte Styling.
+   Farben und Schriftgrößen → nur über CSS-Variablen ändern!
+   ============================================================ */
+
+/* === SCHRIFTART (lokal eingebunden) ===
+   Sligoil Micro ist NICHT auf Google Fonts — wird lokal geladen.
+   Die Font-Datei muss in /assets/fonts/ liegen.
+   Unterstützte Formate (in dieser Reihenfolge probiert):
+   .woff2 (bevorzugt), .woff, .otf
+   Wenn du die Datei anders benennst, passe die src-Zeilen hier an. */
+@font-face {
+  font-family: 'Sligoil Micro';
+  src: url('../assets/fonts/Sligoil-Micro.woff2') format('woff2'),
+       url('../assets/fonts/Sligoil-Micro.otf')  format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* === VARIABLEN ===
+   Hier kannst du Farben und Schriftgrößen global anpassen.
+   Eine Änderung hier wirkt sich auf die gesamte Website aus. */
+:root {
+  /* --- Farben --- */
+  --color-bg: #ffffff;                 /* Hintergrund aller Seiten außer Projektübersicht */
+  --color-text: #111111;               /* Haupttextfarbe (fast schwarz) */
+  --color-accent: #22C55E;             /* Akzentgrün — aktive Nav-Links, Hover-Punkte */
+  --color-grid-dot: #1a1a1a;           /* Standard-Punktfarbe im Raster */
+  --color-grid-hover: #22C55E;         /* Punktfarbe beim Hover */
+  --color-projects-bg: #16A34A;        /* Hintergrund der Projektübersicht (sattes Grün) */
+  --color-projects-text: #ffffff;      /* Textfarbe auf der grünen Projektseite */
+  --color-projects-hover: #d4b800;     /* Hover-Farbe auf der Projektseite (gelb/olive) */
+
+  /* --- Schriftgrößen ---
+     Wenn du eine Größe änderst, wirkt es sich überall aus. */
+  --fs-nav: clamp(9pt, 0.85vw, 12pt);  /* Navigation, Labels, Jahreszahlen */
+  --fs-body: clamp(9pt, 0.85vw, 12pt); /* Fließtext, Beschreibungen */
+  --fs-medium: 18pt;                   /* Reserve */
+  --fs-large: 20pt;                    /* Kontaktseite, größere Labels */
+  --fs-title: 34pt;                    /* Projekttitel auf Detailseite */
+  --fs-xl: 70pt;                       /* Reserve für große Headlines */
+
+  /* --- Layout --- */
+  --border: 80px;                      /* Abstand vom Viewport-Rand zum ersten/letzten Punkt */
+  --nav-font-weight: 400;
+}
+
+/* === RESET ===
+   Setzt Browser-Standardstyles zurück für konsistentes Aussehen */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Sligoil Micro', 'Courier New', Courier, monospace;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* === TYPOGRAFIE === */
+h1, h2, h3 {
+  font-family: 'Sligoil Micro', 'Courier New', Courier, monospace;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* === PUNKT-RASTER (GRID) ===
+   Das Raster ist fixed und scrollt nicht mit der Seite.
+   Punkte werden per JavaScript in #dot-grid eingefügt. */
+#dot-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Klicks gehen durch das Raster */
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Einzelner Punkt — wird per JS erzeugt */
+.dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-grid-dot);
+  transform: translate(-50%, -50%);
+  transition: background-color 0.08s linear;
+}
+
+/* === NAVIGATION ===
+   Nav = zwei Zeilen (oben + unten), jede genau --border hoch.
+   Dadurch sitzt der Text IMMER exakt mittig zwischen Viewport-Rand
+   und erster/letzter Punktreihe — garantiert durch Flexbox, nicht durch
+   manuelle Pixel-Rechnung. JS aktualisiert --border dynamisch. */
+nav {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Gemeinsame Zeilen-Styles — Position und Padding werden von grid.js gesetzt.
+   position: fixed → immer relativ zum Viewport, unabhängig vom Elternelement. */
+.nav-row {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.nav-row a {
+  font-size: var(--fs-nav);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  pointer-events: all;
+  transition: color 0.2s ease;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.nav-row a:hover  { color: var(--color-accent); }
+.nav-row a.active { color: var(--color-accent); }
+
+.nav-row a:first-child { transform: translateX(-50%); }
+.nav-row a:last-child  { transform: translateX(50%);  }
+
+/* Projekttitel-Crumb mittig in der oberen Zeile (nur project.html) */
+.nav-center-top {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: all;
+}
+
+/* === SEITENINHALT ===
+   Alle Seiteninhalte liegen über dem Raster */
+.page-content {
+  position: relative;
+  z-index: 5;
+  min-height: 100vh;
+  padding: var(--border);
+}
+
+/* === STARTSEITE (index.html) ===
+   Komplett leer — nur Raster + Navigation sichtbar */
+.page-index {
+  /* Keine weiteren Stile nötig */
+}
+
+/* === PROJEKTÜBERSICHT (projects.html) ===
+   Grüner Hintergrund, weiße Punkte, weiße Texte */
+body.projects-page {
+  background-color: var(--color-projects-bg);
+  color: var(--color-projects-text);
+}
+
+body.projects-page .dot {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+html, body, body * {
+  cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNCcgaGVpZ2h0PScxOCcgdmlld0JveD0nMCAwIDIwLjA3IDI1LjY0Jz48cGF0aCBmaWxsPScjMjJDNTVFJyBkPSdNMTMuOTEsMjEuOWMuNTMsMS4wNy4xMSwyLjMzLS45MiwyLjg3cy0yLjM0LjE4LTIuODctLjg4bC0yLjM1LTQuNjgtNC4wMyw1LjgzYy0uMy40My0uNzIuNjctMS4yMi41OS0uNDYtLjA3LTEtLjQ1LTEuMDMtLjk5TDAsMS4yMkMtLjAzLjcyLjMyLjI5LjcxLjExYy40Ni0uMjEuOTQtLjEyLDEuMzMuMjJsMTcuNjcsMTUuMTljLjM4LjMzLjQyLjg5LjI2LDEuM3MtLjU5Ljc4LTEuMS43NmwtNy4yNi0uMjksMi4zLDQuNjJaJy8+PC9zdmc+") 0 1, auto;
+}
+
+body.projects-page, body.projects-page * {
+  cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNCcgaGVpZ2h0PScxOCcgdmlld0JveD0nMCAwIDIwLjA3IDI1LjY0Jz48cGF0aCBmaWxsPSd3aGl0ZScgZD0nTTEzLjkxLDIxLjljLjUzLDEuMDcuMTEsMi4zMy0uOTIsMi44N3MtMi4zNC4xOC0yLjg3LS44OGwtMi4zNS00LjY4LTQuMDMsNS44M2MtLjMuNDMtLjcyLjY3LTEuMjIuNTktLjQ2LS4wNy0xLS40NS0xLjAzLS45OUwwLDEuMjJDLS4wMy43Mi4zMi4yOS43MS4xMWMuNDYtLjIxLjk0LS4xMiwxLjMzLjIybDE3LjY3LDE1LjE5Yy4zOC4zMy40Mi44OS4yNiwxLjNzLS41OS43OC0xLjEuNzZsLTcuMjYtLjI5LDIuMyw0LjYyWicvPjwvc3ZnPg==") 0 1, auto;
+}
+
+body.projects-page nav a {
+  color: var(--color-projects-text);
+}
+
+body.projects-page nav a:hover,
+body.projects-page nav a.active {
+  color: var(--color-projects-hover);
+}
+
+/* === PROJEKTÜBERSICHT-GRID — F-System (14 × 7 Areas between Dots) ===
+   14 Spalten × 7 Zeilen = Flächen zwischen den 15 × 8 Dots.
+   position: fixed + inset: 0 + padding: var(--border) → identischer
+   Koordinatenraum wie das Punkt-Raster in grid.js. */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  position: fixed;
+  inset: 0;
+  padding: var(--border);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* display: contents → Icon und Label landen direkt als Grid-Items */
+.project-item {
+  display: contents;
+}
+
+/* Icon und Label: je in eigener Grid-Zelle, Positionen via inline style */
+.project-icon,
+.project-label {
+  pointer-events: all;
+  cursor: pointer;
+  color: var(--color-projects-text);
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.project-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.project-icon img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: filter 0.2s ease;
+}
+
+.project-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 8px;
+  padding-left: 0;
+}
+
+.project-label h3 {
+  font-size: var(--fs-nav);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.project-label .project-year {
+  font-size: var(--fs-nav);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  opacity: 0.6;
+  color: inherit;
+}
+
+/* Hover-Zustand (via JS-Klasse .hovered auf Icon und Label) */
+.project-icon.hovered img {
+  filter: brightness(0) saturate(100%) invert(84%) sepia(55%) saturate(600%) hue-rotate(10deg) brightness(95%);
+}
+
+.project-label.hovered {
+  color: var(--color-projects-hover);
+}
+
+.project-label.hovered .project-year {
+  opacity: 1;
+}
+
+/* === PROJEKT-DETAILSEITE (project.html) ===
+   Eine Datei für alle Projekte, Inhalt wird dynamisch geladen */
+
+/* Slide-Container */
+.slides-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Einzelner Slide */
+.slide {
+  display: none;
+  position: relative;
+  min-height: 100vh;
+  padding: var(--border);
+  padding-top: calc(var(--border) + 24px);
+}
+
+.slide.active {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 60px;
+}
+
+/* Slide 1 und 2: Bild links, Text rechts */
+.slide-image-left {
+  flex: 0 0 38%;
+  max-width: 38%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 2 * var(--border));
+}
+
+.slide-image-left img {
+  max-height: calc(100vh - 120px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.sir-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: 40px;
+  padding-bottom: 8%;
+  gap: 24px;
+}
+
+.sir-left-img {
+  max-width: 100%;
+  max-height: 40vh;
+  object-fit: contain;
+  align-self: flex-start;
+}
+
+.sir-image {
+  flex: 0 0 38%;
+  max-width: 38%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 2 * var(--border));
+}
+
+.sir-img {
+  max-height: calc(100vh - 120px);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.slide.active.slide-centered {
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-centered-img {
+  max-height: calc(100vh - 2 * var(--border));
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.slide.active.slide-dual {
+  gap: 0;
+}
+
+.slide-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 2 * var(--border));
+}
+
+.slide-panel-img {
+  width: 80%;
+  height: 80%;
+  max-height: calc(0.8 * (100vh - 2 * var(--border)));
+  object-fit: contain;
+}
+
+.slide-text-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+/* Projekttitel groß */
+.project-title-large {
+  font-size: var(--fs-title);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+/* Titel in grün (Slide 2) */
+.project-title-large.green {
+  color: var(--color-accent);
+}
+
+/* Jahreszahl neben dem Titel */
+.project-year {
+  font-size: var(--fs-nav);
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* Pfeil rechts (Slide 2) */
+.slide-arrow {
+  display: inline-block;
+  margin-left: 16px;
+  color: var(--color-accent);
+  font-size: var(--fs-title);
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Beschreibungstext */
+.project-description {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  letter-spacing: 0.03em;
+  max-width: 540px;
+  color: var(--color-text);
+}
+
+/* === SLIDE 01 — SPLIT-SCROLL-LAYOUT ===
+   Linke Seite: Bilder gestapelt, unabhängig scrollbar.
+   Rechte Seite: Titel + Jahr + Beschreibung, unabhängig scrollbar.
+   Keine Hover-Effekte. */
+
+.slide.active.slide-1-split {
+  padding: 0;
+  height: 100vh;
+  min-height: unset;
+  overflow: hidden;
+  gap: 0;
+  align-items: stretch;
+}
+
+.slide-1-left {
+  flex: 0 0 45%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: calc(var(--border) + 24px) 4% var(--border) var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  scrollbar-width: none;
+}
+
+.slide-1-left::-webkit-scrollbar {
+  display: none;
+}
+
+.slide-1-left .slide1-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.slide.active.slide-stack-right {
+  gap: 0;
+}
+
+.sr-left {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: var(--border);
+  scrollbar-width: none;
+}
+
+.sr-left::-webkit-scrollbar {
+  display: none;
+}
+
+.sr-left-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sr-right {
+  flex: 0 0 65%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sr-right-img {
+  width: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+[data-project="forest-souvenirs"]#slide-3 .slide-panel:nth-child(2) {
+  flex: 0 0 65%;
+}
+
+[data-project="forest-souvenirs"]#slide-3 .slide-panel:nth-child(2) .slide-panel-img {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 2 * var(--border));
+  object-fit: contain;
+}
+
+[data-project="strahling"]#slide-3 .slide-centered-img {
+  animation: spin 12s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+[data-project="cone-wall-group"] .slide1-img {
+  width: 65%;
+  align-self: center;
+}
+
+[data-project="wasmo"] .slide1-img {
+  width: 80%;
+  align-self: center;
+}
+
+[data-project="12020"] .slide-centered-img {
+  max-height: calc(77vh - 2 * var(--border));
+  max-width: 77%;
+}
+
+.slide-1-right {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: calc(var(--border) + 24px) 14% var(--border) 1%;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+}
+
+.slide-1-right::-webkit-scrollbar {
+  display: none;
+}
+
+.slide1-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-bottom: 50px;
+}
+
+.slide-1-right .project-title-large {
+  font-size: clamp(10pt, 2.2vw, 46pt);
+  line-height: 1.0;
+  letter-spacing: 0.02em;
+  margin-bottom: 0;
+}
+
+.slide-1-right .project-year {
+  font-size: clamp(6pt, 0.68vw, 13pt);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  margin-top: 0;
+  align-self: auto;
+}
+
+.slide1-desc {
+  font-size: clamp(7pt, 0.8vw, 13pt);
+  line-height: 2.28;
+  letter-spacing: 0.03em;
+  max-width: 100%;
+}
+
+/* Slide 4: Detail-Bild groß */
+.slide-4 {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.slide.active.slide-imgshow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.imgshow-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 80vw;
+  height: calc(100vh - 2 * var(--border));
+}
+
+.imgshow-img {
+  position: absolute;
+  max-height: 92vh;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imgshow-img.active {
+  opacity: 1;
+}
+
+.imgshow-btn {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.35s ease;
+}
+
+.imgshow-btn svg {
+  display: block;
+  width: clamp(18px, 2vw, 40px);
+  height: auto;
+  overflow: visible;
+}
+
+.imgshow-btn svg circle {
+  fill: var(--color-text);
+  transition: fill 0.3s ease;
+}
+
+.imgshow-btn:hover svg circle {
+  fill: var(--color-accent);
+}
+
+.imgshow-prev {
+  transform: scaleX(-1);
+}
+
+.imgshow-next:hover {
+  transform: translateX(10px);
+}
+
+.imgshow-prev:hover {
+  transform: scaleX(-1) translateX(10px);
+}
+
+.slide.active.slide-table {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  padding: 0;
+}
+
+.table-img {
+  position: absolute;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 2px 4px 12px rgba(0,0,0,0.18);
+}
+
+.table-img:hover {
+  transform: rotate(0deg) scale(1.22) !important;
+  box-shadow: 8px 16px 48px rgba(0,0,0,0.38);
+  z-index: 10;
+}
+
+.slide.active.slide-scatter {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  padding: 0;
+  cursor: none;
+}
+
+.scatter-img {
+  position: absolute;
+  height: auto;
+  object-fit: contain;
+  border-radius: 2px;
+  will-change: left, top;
+  pointer-events: none;
+  user-select: none;
+}
+
+.slide-4-image {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.slide-4-text {
+  font-size: var(--fs-body);
+  max-width: 480px;
+  align-self: flex-end;
+}
+
+/* Slide 5: Kontext-/Ausstellungsfoto */
+.slide-5 {
+  flex-direction: column;
+  position: relative;
+}
+
+.slide-5-image {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: cover;
+  margin-bottom: 24px;
+}
+
+body.slide-fullframe .slide-5 {
+  padding: 0;
+  height: 100vh;
+  min-height: unset;
+  overflow: hidden;
+}
+
+body.slide-fullframe .slide-5-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+  margin-bottom: 0;
+  z-index: 1;
+}
+
+body.slide-fullframe #dot-grid {
+  z-index: 5;
+}
+
+.slide-5-text {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  max-width: 680px;
+}
+
+/* Text-Overlay auf dem Fullframe-Bild */
+.slide-5-overlay {
+  display: none;
+}
+
+body.slide-fullframe .slide-5-overlay {
+  display: block;
+  position: absolute;
+  bottom: calc(var(--border) + 12vh);
+  left: calc(var(--border) + 5%);
+  right: calc(var(--border) + 5%);
+  z-index: 3;
+  font-family: 'Sligoil Micro', 'Courier New', Courier, monospace;
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  letter-spacing: 0.03em;
+  text-align: justify;
+  color: var(--color-projects-text);
+  hyphens: auto;
+}
+
+/* === GRID-STEP-NAVIGATION (nur project.html) ===
+   Zahlen 1–5 sitzen rechts neben den Grid-Dots A1–E1.
+   Aktive Seite: grüner Kreis um den Dot + grüne Zahl.
+   Genau ein Step ist aktiv — alle anderen neutral. */
+
+.grid-step-label {
+  position: fixed;
+  font-size: var(--fs-nav);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: var(--color-text);
+  opacity: 0.35;
+  cursor: pointer;
+  z-index: 10;
+  transform: translateY(-50%);
+  transition: color 0.2s ease, opacity 0.2s ease;
+  pointer-events: all;
+  user-select: none;
+}
+
+.grid-step-label.active {
+  color: var(--color-accent);
+  opacity: 1;
+}
+
+.grid-step-label:hover {
+  opacity: 0.8;
+}
+
+/* Grüner Kreis um den aktiven Grid-Dot */
+.grid-step-ring {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.grid-step-ring.active {
+  opacity: 1;
+}
+
+/* === PAGINATION (klassisch, wird auf project.html ersetzt) ===
+   Die Zahlen 01–05 oben links, aktive Seite mit grünem Kreis */
+.pagination {
+  position: fixed;
+  top: var(--border);
+  left: var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+  font-size: var(--fs-nav);
+  letter-spacing: 0.08em;
+}
+
+.pagination-item {
+  cursor: pointer;
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  color: var(--color-text);
+}
+
+.pagination-item.active {
+  color: var(--color-accent);
+}
+
+/* Grüner Kreis um aktive Pagination-Zahl */
+.pagination-item.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+/* Trennpunkt zwischen Zahlen — immer neutral, niemals grün */
+.pagination-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  opacity: 0.4;
+}
+
+/* === FADE-ANIMATION FÜR SLIDES === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slide.active {
+    animation: fadeIn 0.25s ease;
+  }
+}
+
+/* === FOKUS-INDIKATOREN (Tastaturnavigation) === */
+.nav-row a:focus-visible,
+.proj-title-link:focus-visible,
+.proj-arrow:focus-visible,
+.project-icon:focus-visible,
+.project-label:focus-visible,
+.contact-line a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* === REDUCED MOTION: alle Übergänge deaktivieren === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === ABOUT-SEITE (about.html) === */
+.about-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+  min-height: calc(100vh - 2 * var(--border));
+}
+
+.about-portrait {
+  flex: 0 0 auto;
+}
+
+.about-portrait img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 40vh;
+  object-fit: contain;
+}
+
+.about-name {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.about-shield {
+  background: var(--color-bg);
+  padding: 28px 40px;
+}
+
+.about-text {
+  max-width: 900px;
+}
+
+.about-text p {
+  margin-bottom: 1.2em;
+  font-size: var(--fs-body);
+  line-height: 2.5;
+  hyphens: auto;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+.about-impressum {
+  display: inline-block;
+  margin-top: 1.5em;
+  font-size: var(--fs-nav);
+  opacity: 0.4;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s;
+}
+
+.about-impressum:hover {
+  opacity: 1;
+}
+
+.impressum-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 2 * var(--border));
+}
+
+.impressum-text {
+  max-width: 500px;
+}
+
+.impressum-text h2 {
+  font-size: var(--fs-nav);
+  margin-bottom: 2em;
+  opacity: 0.5;
+}
+
+.impressum-text p {
+  font-size: var(--fs-body);
+  line-height: 2;
+  margin-bottom: 1.5em;
+}
+
+.impressum-text a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.impressum-text a:hover {
+  color: var(--color-accent);
+}
+
+.impressum-back {
+  margin-top: 2em;
+  opacity: 0.4;
+}
+
+.impressum-back:hover {
+  opacity: 1;
+}
+
+/* === KONTAKTSEITE (contact.html) === */
+.contact-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 2 * var(--border));
+  gap: 50px;
+}
+
+.contact-shield {
+  position: relative;
+  padding: 28px 40px;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.contact-line {
+  font-size: var(--fs-large);
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.contact-line a {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.contact-line a:hover,
+.contact-line.accent {
+  color: var(--color-accent);
+}
+
+/* === RESPONSIVE — MOBILE (<= 900px) === */
+@media (max-width: 900px) {
+  :root {
+    --border: 40px;
+    --fs-title: 24pt;
+    --fs-large: 16pt;
+  }
+
+  /* Slide-Layout stapeln */
+  .slide.active {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .slide-image-left {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .slide-image-left img {
+    max-height: 45vh;
+    width: auto;
+    margin: 0 auto;
+  }
+
+  /* About stapeln */
+  .about-layout {
+    flex-direction: column;
+    gap: 30px;
+    padding-top: 30px;
+  }
+
+  .about-portrait {
+    flex: unset;
+    max-width: 80%;
+    width: 80%;
+  }
+
+  /* Projekte-Grid: 2 Spalten × 6 Zeilen (Flächen zwischen 3 × 7 Dots) */
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+  }
+
+  /* Pagination kompakter */
+  .pagination {
+    gap: 6px;
+  }
+
+  .pagination-item {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* === SLIDE DARK MODE (Slide 5 von forest-souvenirs) ===
+   Dunkler Hintergrund, Grid-Dots ausgeblendet, Text weiß.
+   Step-Navigation (01–05, .grid-step-label / .grid-step-ring) bleibt sichtbar. */
+body.slide-fullframe {
+  background-color: #1e1e1e;
+}
+
+body.slide-fullframe .dot {
+  opacity: 0 !important;
+}
+
+body.slide-fullframe .dot.dot-link {
+  opacity: 1 !important;
+  background-color: #ffffff !important;
+  width: 4px !important;
+  height: 4px !important;
+}
+
+body.slide-fullframe .nav-row a {
+  color: var(--color-projects-text);
+}
+
+body.slide-fullframe .nav-row a:hover,
+body.slide-fullframe .nav-row a.active {
+  color: var(--color-accent);
+}
+
+body.slide-fullframe .grid-step-label {
+  color: var(--color-projects-text);
+}
+
+body.slide-fullframe .grid-step-label.active {
+  color: var(--color-accent);
+}
+
+body.slide-fullframe .project-description {
+  color: var(--color-projects-text);
+}
+
+/* === SEITEN-ÜBERGANG (shared) === */
+#page-in {
+  position: fixed;
+  inset: 0;
+  background: #16A34A;
+  z-index: 9999;
+  opacity: 1;
+  pointer-events: none;
+}
+#page-out {
+  position: fixed;
+  inset: 0;
+  background: #16A34A;
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  #page-in  { transition: opacity 0.96s ease; }
+  #page-out { transition: opacity 0.96s ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #page-in { display: none; }
+}
+.transition-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}

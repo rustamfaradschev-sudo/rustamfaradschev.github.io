@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projekt — Rustam Faradschev</title>
+
+  <!-- Sligoil Micro von Google Fonts -->
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="page-in"></div>
+  <div id="page-out"></div>
+
+  <!-- Punkt-Raster (wird von grid.js befüllt) -->
+  <div id="dot-grid"></div>
+
+  <!-- Navigation
+       RUSTAM ist aktiv (grün), weil man sich im Projektbereich befindet.
+       Projekttitel erscheint mittig oben als Breadcrumb. -->
+  <nav>
+    <div class="nav-row">
+      <a href="index.html" class="active">RUSTAM</a>
+<a href="about.html">ABOUT</a>
+    </div>
+    <div class="nav-row">
+      <a href="projects.html">PROJECTS</a>
+      <a href="contact.html">CONTACT</a>
+    </div>
+  </nav>
+
+  <!-- Pagination (01 – 05), wird von project-loader.js befüllt -->
+  <div class="pagination" id="pagination"></div>
+
+  <!-- Slides-Container, wird von project-loader.js befüllt -->
+  <main id="slides-wrapper" class="slides-wrapper"></main>
+
+  <!-- Skripte: zuerst Daten laden, dann Grid, dann Projekt-Loader -->
+  <script src="js/projects.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/project-loader.js"></script>
+  <script src="js/transitions.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Rustam Faradschev</title>
+
+  <!-- Sligoil Micro von Google Fonts -->
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<!-- projects-page aktiviert grünen Hintergrund + weiße Punkte via CSS -->
+<body class="projects-page">
+
+  <div id="page-in"></div>
+  <div id="page-out"></div>
+
+  <!-- Punkt-Raster (wird von grid.js befüllt) -->
+  <div id="dot-grid"></div>
+
+  <!-- Navigation — „PROJECTS" ist aktiv (grün / gelb beim Hover) -->
+    <nav>
+    <div class="nav-row">
+      <a href="index.html">RUSTAM</a>
+      <a href="about.html">ABOUT</a>
+    </div>
+    <div class="nav-row">
+      <a href="projects.html" class="active">PROJECTS</a>
+      <a href="contact.html">CONTACT</a>
+    </div>
+  </nav>
+
+  <!-- Projektübersicht — Inhalt wird von JavaScript befüllt -->
+  <div class="projects-grid" id="projects-grid"></div>
+
+  <!-- Skripte: zuerst Daten, dann Grid, dann Aufbau -->
+  <script src="js/projects.js"></script>
+  <script src="js/grid.js"></script>
+  <script>
+    /**
+     * Projektübersicht dynamisch aufbauen — F-System (14 × 7 Grid).
+     * Jede Card besteht aus zwei separaten Grid-Items: Icon (obere Fläche)
+     * und Label (Fläche direkt darunter). Das übergeordnete <a>-Element
+     * verwendet display:contents, sodass Icon und Label direkt im Grid landen.
+     * Grid-Positionen werden per inline style gesetzt.
+     */
+    (function () {
+      var grid = document.getElementById('projects-grid');
+      if (!grid || typeof projects === 'undefined') return;
+
+      var isMobile = (screen.width <= 900);
+
+      projects.forEach(function (project, index) {
+        var col, iconRow, labelRow;
+
+        if (isMobile) {
+          col = 1;
+          iconRow  = index * 2 + 1;
+          labelRow = index * 2 + 2;
+        } else {
+          var projectRow = Math.floor(index / 14);
+          col      = (index % 14) + 1;
+          iconRow  = projectRow * 2 + 1;
+          labelRow = projectRow * 2 + 2;
+        }
+
+        var item = document.createElement('a');
+        item.className = 'project-item';
+        item.setAttribute('data-slot', index + 1);
+        item.href = 'project.html?id=' + project.slug;
+        item.setAttribute('aria-label', project.title + ' ' + project.year);
+
+        var icon = document.createElement('div');
+        icon.className = 'project-icon';
+        icon.style.gridColumn = col + ' / ' + (col + 1);
+        icon.style.gridRow    = iconRow + ' / ' + (iconRow + 1);
+        icon.innerHTML = '<img src="' + project.icon + '" alt="' + project.title + ' Icon" onerror="this.style.opacity=\'0.3\'">';
+
+        var label = document.createElement('div');
+        label.className = 'project-label';
+        label.style.gridColumn = col + ' / ' + (col + 1);
+        label.style.gridRow    = labelRow + ' / ' + (labelRow + 1);
+        label.innerHTML = '<h3>' + (project.displayTitle || project.title) + '</h3><span class="project-year">' + project.year + '</span>';
+
+        item.appendChild(icon);
+        item.appendChild(label);
+        grid.appendChild(item);
+
+        /* Hover: display:contents entfernt die Box des <a>, daher via JS
+           .hovered-Klasse auf Icon und Label setzen. */
+        function setHover(on) {
+          icon.classList[on ? 'add' : 'remove']('hovered');
+          label.classList[on ? 'add' : 'remove']('hovered');
+        }
+        [icon, label].forEach(function (el) {
+          el.addEventListener('mouseenter', function () { setHover(true); });
+          el.addEventListener('mouseleave', function () { setHover(false); });
+        });
+      });
+    })();
+  </script>
+  <script src="js/transitions.js"></script>
+</body>
+</html>
