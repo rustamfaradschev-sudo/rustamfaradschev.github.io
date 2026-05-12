@@ -84,7 +84,7 @@
     const W = window.innerWidth;
     const H = window.innerHeight;
 
-    const isMobile = (screen.width <= MOBILE_BREAK);
+    const isMobile = (window.innerWidth <= MOBILE_BREAK);
     const cols    = isMobile ? MOBILE_COLS   : DESKTOP_COLS;
     const rows    = isMobile ? MOBILE_ROWS   : DESKTOP_ROWS;
     const border  = isMobile ? BORDER_MOBILE : BORDER_DESKTOP;
