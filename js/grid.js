@@ -41,7 +41,8 @@
   const DOT_SIZE_MAX  = 12;
 
   // Layer 3 — Hover-Effekt
-  const HOVER_RADIUS = 280;
+  // HOVER_RADIUS skaliert mit der Viewport-Breite (ca. 11% → ~280px bei 2560px, ~165px bei 1512px)
+  const HOVER_RADIUS_FACTOR = 280 / 2560;
   const HOVER_COLOR  = [34, 197, 94];   // Grün (nur für Layer-3-Effekte)
 
   // Layer 1 — Default-Farben (Ruhezustand)
@@ -57,6 +58,9 @@
   // Mausposition für Layer-3-Effekte
   let mouseX = -9999;
   let mouseY = -9999;
+
+  // Dynamischer Hover-Radius (wird bei buildGrid() aktualisiert)
+  let hoverRadius = 280;
 
   // === HILFSFUNKTIONEN =======================================
 
@@ -121,6 +125,9 @@
     }
     container.appendChild(frag);
 
+    // Hover-Radius proportional zur Viewport-Breite aktualisieren
+    hoverRadius = Math.round(W * HOVER_RADIUS_FACTOR);
+
     // CSS-Variable → Nav und Layout synchronisieren sich automatisch
     document.documentElement.style.setProperty('--border', border + 'px');
 
@@ -161,8 +168,8 @@
         const dy  = mouseY - dot._y;
         const d   = Math.sqrt(dx * dx + dy * dy);
 
-        if (d < HOVER_RADIUS) {
-          const t      = 1 - d / HOVER_RADIUS;
+        if (d < hoverRadius) {
+          const t      = 1 - d / hoverRadius;
           const wobble = 1 + Math.sin(now * 0.005 + r * 0.9 + c * 0.6) * 0.07 * t;
           const scale  = (DOT_SIZE_BASE + t * (DOT_SIZE_MAX - DOT_SIZE_BASE)) / DOT_SIZE_BASE * wobble;
           const col    = lerpColor(dc, HOVER_COLOR, t);
