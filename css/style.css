@@ -1271,11 +1271,18 @@ body.slide-fullframe .slide-5-overlay {
 
   /* === STACK-RIGHT — untereinander stapeln === */
   .slide.active.slide-stack-right { overflow-y: auto; }
+  .slide.active.slide-stack-right--slideshow { overflow: hidden; flex-direction: column; }
 
   .sr-left {
     height: auto;
     overflow-y: visible;
     padding: calc(var(--border) + 40px) var(--border) var(--border);
+  }
+
+  .slide-stack-right--slideshow .sr-left {
+    height: 55vh;
+    flex-shrink: 0;
+    padding: var(--border);
   }
 
   .sr-right {
