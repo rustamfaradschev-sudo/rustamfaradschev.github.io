@@ -535,9 +535,18 @@
       // --- Grüner Kreis um den Dot (nur Desktop) ---
       if (!isMobile) {
         var ring = document.createElement('div');
-        ring.className   = 'grid-step-ring' + (isFirst ? ' active' : '');
-        ring.style.left  = dotX + 'px';
-        ring.style.top   = dotY + 'px';
+        ring.className           = 'grid-step-ring' + (isFirst ? ' active' : '');
+        ring.style.left          = dotX + 'px';
+        ring.style.top           = dotY + 'px';
+        ring.style.pointerEvents = 'all';
+        ring.style.cursor        = 'pointer';
+
+        (function (slideNum) {
+          ring.addEventListener('click', function (e) {
+            e.stopPropagation();
+            goToSlide(slideNum);
+          });
+        })(i + 1);
 
         document.body.appendChild(ring);
         gridStepRings.push(ring);
