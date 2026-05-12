@@ -1133,8 +1133,8 @@ body.slide-fullframe .slide-5-overlay {
 @media (max-width: 900px) {
   :root {
     --border: 40px;
-    --fs-title: 24pt;
-    --fs-large: 16pt;
+    --fs-title: 22px;
+    --fs-large: 17px;
   }
 
   /* Slide-Layout stapeln */
@@ -1260,10 +1260,10 @@ body.slide-fullframe .slide-5-overlay {
     padding: var(--border) var(--border) calc(var(--border) + 40px);
   }
 
-  .slide-1-right .project-title-large { font-size: clamp(16pt, 5vw, 34pt); }
-  .slide-1-right .project-year        { font-size: 10pt; }
+  .slide-1-right .project-title-large { font-size: clamp(18px, 5vw, 34px); }
+  .slide-1-right .project-year        { font-size: 13px; }
   .slide1-title-row                   { margin-bottom: 20px; }
-  .slide1-desc                        { font-size: 10pt; line-height: 1.8; }
+  .slide1-desc                        { font-size: 13px; line-height: 1.8; }
 
   /* === IMAGESHOW — Pfeile ausblenden, Auto-Cycle via JS === */
   .slide-imgshow .imgshow-btn { display: none !important; }
