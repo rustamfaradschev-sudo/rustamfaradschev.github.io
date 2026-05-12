@@ -76,10 +76,12 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
           "assets/projects/forest-souvenirs/03_L6.png",
           "assets/projects/forest-souvenirs/03_L7.png",
           "assets/projects/forest-souvenirs/03_L8.png",
-          "assets/projects/forest-souvenirs/03_8.png"
+          "assets/projects/forest-souvenirs/03_L9.png",
+          "assets/projects/forest-souvenirs/03_L10.png"
         ],
         leftCaptions: [
           null,
+          "Finn de Bruyn",
           "Melanie Gloria Wisser",
           "Hannah Adam",
           "Florian Knöbl",
