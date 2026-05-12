@@ -261,11 +261,11 @@
     document.querySelectorAll('.dot-link').forEach(function (d) { d.classList.remove('dot-link'); });
     if (window.gridAPI) window.gridAPI.resetAll();
 
-    // Auf Mobile: Top-Row-Dots nach resetAll() wieder verstecken
+    // Auf Mobile: Dot-Reihe 1 (Index 1) nach resetAll() wieder verstecken
     if (window.innerWidth <= 900 && window.gridAPI) {
       var mCols = window.gridAPI.getCols();
       for (var mc = 0; mc < mCols; mc++) {
-        var md = window.gridAPI.getDot(0, mc);
+        var md = window.gridAPI.getDot(1, mc);
         if (md) md.style.opacity = '0';
       }
     }
@@ -541,8 +541,15 @@
     var border   = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--border'), 10) || 80;
     var cols     = (window.gridAPI && window.gridAPI.getCols()) || 15;
     var spacingX = (window.innerWidth - 2 * border) / (cols - 1);
-    var dotY     = border; // Dots der ersten Zeile sitzen bei y = border
     var isMobile = window.innerWidth <= 900;
+
+    // Desktop: Labels auf Reihe 0 (y = border)
+    // Mobile:  Labels zwischen Reihe 1 und Reihe 3 → y-Position von Dot-Reihe 2 (Index 1)
+    var dotY = border;
+    if (isMobile && window.gridAPI) {
+      var row1dot = window.gridAPI.getDot(1, 0);
+      if (row1dot) dotY = parseFloat(row1dot.style.top);
+    }
 
     for (var i = 0; i < TOTAL_SLIDES; i++) {
       var dotX    = isMobile
@@ -593,11 +600,11 @@
       }
     }
 
-    // Auf Mobile: Top-Row-Dots verstecken (kollidieren mit Label-Positionen)
+    // Auf Mobile: Dot-Reihe 1 (Index 1) verstecken — Labels liegen dort
     if (isMobile && window.gridAPI) {
       var totalCols = window.gridAPI.getCols();
       for (var c = 0; c < totalCols; c++) {
-        var d = window.gridAPI.getDot(0, c);
+        var d = window.gridAPI.getDot(1, c);
         if (d) d.style.opacity = '0';
       }
     }
