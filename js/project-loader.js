@@ -704,6 +704,9 @@
       return;
     }
 
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
     currentSlug = slug;
     TOTAL_SLIDES = project.slides.length;
     buildSlides(project);
