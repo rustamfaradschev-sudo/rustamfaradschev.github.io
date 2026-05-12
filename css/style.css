@@ -1280,14 +1280,27 @@ body.slide-fullframe .slide-5-overlay {
   }
 
   .slide-stack-right--slideshow .sr-left {
+    display: grid;
+    align-items: center;
+    justify-items: center;
     height: 55vh;
     flex-shrink: 0;
     padding: var(--border);
+    overflow: hidden;
+    position: relative;
   }
 
   .slide-stack-right--slideshow .sr-left .sr-slideshow-img {
+    grid-column: 1;
+    grid-row: 1;
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: auto;
+    height: auto;
+    max-width: 100%;
     max-height: calc(55vh - 2 * var(--border));
-    max-width: calc(100% - 2 * var(--border));
   }
 
   .sr-right {
