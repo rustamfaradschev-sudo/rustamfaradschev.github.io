@@ -260,6 +260,16 @@
     document.body.classList.remove('slide-fullframe');
     document.querySelectorAll('.dot-link').forEach(function (d) { d.classList.remove('dot-link'); });
     if (window.gridAPI) window.gridAPI.resetAll();
+
+    // Auf Mobile: Top-Row-Dots nach resetAll() wieder verstecken
+    if (window.innerWidth <= 900 && window.gridAPI) {
+      var mCols = window.gridAPI.getCols();
+      for (var mc = 0; mc < mCols; mc++) {
+        var md = window.gridAPI.getDot(0, mc);
+        if (md) md.style.opacity = '0';
+      }
+    }
+
     var effects = SLIDE_EFFECTS[slug];
     if (effects && effects[slideNum]) effects[slideNum]();
   }
@@ -560,6 +570,15 @@
 
         document.body.appendChild(ring);
         gridStepRings.push(ring);
+      }
+    }
+
+    // Auf Mobile: Top-Row-Dots verstecken (kollidieren mit Label-Positionen)
+    if (isMobile && window.gridAPI) {
+      var totalCols = window.gridAPI.getCols();
+      for (var c = 0; c < totalCols; c++) {
+        var d = window.gridAPI.getDot(0, c);
+        if (d) d.style.opacity = '0';
       }
     }
   }
