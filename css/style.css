@@ -690,57 +690,6 @@ body.projects-page nav a.active {
   transform: scaleX(-1) translateX(10px);
 }
 
-/* === GLOBALE SLIDE-NAVIGATION (Desktop) === */
-.slide-nav-arrow {
-  display: none;
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-  pointer-events: all;
-  transition: transform 0.35s ease;
-}
-
-.slide-nav-arrow svg {
-  display: block;
-  width: clamp(18px, 2vw, 40px);
-  height: auto;
-  overflow: visible;
-}
-
-.slide-nav-arrow svg circle {
-  fill: var(--color-text);
-  transition: fill 0.3s ease;
-}
-
-.slide-nav-arrow:hover svg circle {
-  fill: var(--color-accent);
-}
-
-.slide-nav-prev {
-  left: var(--border);
-  transform: translateY(-50%) scaleX(-1);
-}
-
-.slide-nav-next {
-  right: var(--border);
-}
-
-.slide-nav-prev:hover {
-  transform: translateY(-50%) scaleX(-1) translateX(-10px);
-}
-
-.slide-nav-next:hover {
-  transform: translateY(-50%) translateX(10px);
-}
-
-@media (min-width: 901px) {
-  .slide-nav-arrow { display: block; }
-}
 
 .imgshow-caption {
   position: absolute;

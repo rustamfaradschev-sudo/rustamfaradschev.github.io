@@ -709,7 +709,6 @@
     buildSlides(project);
     buildGridPagination();
     initKeyboard();
-    buildNavArrows();
     initSwipe();
     window.addEventListener('resize', onStepResize);
   }
