@@ -32,9 +32,10 @@
   const MOBILE_COLS  = 3;
   const MOBILE_ROWS  = 7;
 
-  const BORDER_DESKTOP = 80;
-  const BORDER_MOBILE  = 40;
-  const MOBILE_BREAK   = 900;
+  const BORDER_DESKTOP   = 80;
+  const BORDER_MOBILE    = 40;
+  const BORDER_MOBILE_X  = 56;   // horizontaler Dot-Abstand auf Mobile (etwas weiter innen)
+  const MOBILE_BREAK     = 900;
 
   const DOT_SIZE_BASE = 4;
   const DOT_SIZE_MAX  = 12;
@@ -84,12 +85,13 @@
     const H = window.innerHeight;
 
     const isMobile = (screen.width <= MOBILE_BREAK);
-    const cols   = isMobile ? MOBILE_COLS   : DESKTOP_COLS;
-    const rows   = isMobile ? MOBILE_ROWS   : DESKTOP_ROWS;
-    const border = isMobile ? BORDER_MOBILE : BORDER_DESKTOP;
+    const cols    = isMobile ? MOBILE_COLS   : DESKTOP_COLS;
+    const rows    = isMobile ? MOBILE_ROWS   : DESKTOP_ROWS;
+    const border  = isMobile ? BORDER_MOBILE : BORDER_DESKTOP;
+    const borderX = isMobile ? BORDER_MOBILE_X : BORDER_DESKTOP;
 
-    const spacingX = (W - 2 * border) / (cols - 1);
-    const spacingY = (H - 2 * border) / (rows - 1);
+    const spacingX = (W - 2 * borderX) / (cols - 1);
+    const spacingY = (H - 2 * border)  / (rows - 1);
 
     const dc  = getDefaultColor();
     const colStr = 'rgb(' + dc[0] + ',' + dc[1] + ',' + dc[2] + ')';
@@ -98,8 +100,8 @@
     for (let r = 0; r < rows; r++) {
       dotGrid[r] = [];
       for (let c = 0; c < cols; c++) {
-        const x = border + c * spacingX;
-        const y = border + r * spacingY;
+        const x = borderX + c * spacingX;
+        const y = border  + r * spacingY;
 
         const el = document.createElement('div');
         el.className      = 'dot';
