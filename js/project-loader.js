@@ -645,22 +645,31 @@
   }
 
   // -----------------------------------------------------------
-  // 8b. Klick links/rechts im Seitenbereich
+  // 8b. Visuelle Pfeil-Buttons (Desktop) für Slide-Navigation
   // -----------------------------------------------------------
-  function initClickAreas() {
-    document.addEventListener('click', function (e) {
-      // Klick auf Pagination oder Navigation ignorieren
-      if (e.target.closest('#pagination') || e.target.closest('nav')) return;
+  var arrowSvgStr = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.02 69.54" aria-hidden="true"><circle cx="66.99" cy="2.3" r="2.3"/><circle cx="72.4" cy="2.3" r="2.3"/><circle cx="56.17" cy="7.71" r="2.3"/><circle cx="61.58" cy="7.71" r="2.3"/><circle cx="66.99" cy="7.71" r="2.3"/><circle cx="72.4" cy="7.71" r="2.3"/><circle cx="61.58" cy="13.12" r="2.3"/><circle cx="66.99" cy="13.12" r="2.3"/><circle cx="72.4" cy="13.12" r="2.3"/><circle cx="77.81" cy="13.12" r="2.3"/><circle cx="66.99" cy="18.54" r="2.3"/><circle cx="72.4" cy="18.54" r="2.3"/><circle cx="77.81" cy="18.54" r="2.3"/><circle cx="72.4" cy="23.95" r="2.3"/><circle cx="77.81" cy="23.95" r="2.3"/><circle cx="83.22" cy="23.95" r="2.3"/><circle cx="88.63" cy="23.95" r="2.3"/><circle cx="2.3" cy="29.36" r="2.3"/><circle cx="7.71" cy="29.36" r="2.3"/><circle cx="13.12" cy="29.36" r="2.3"/><circle cx="18.54" cy="29.36" r="2.3"/><circle cx="23.71" cy="29.36" r="2.3"/><circle cx="29.12" cy="29.36" r="2.3"/><circle cx="34.53" cy="29.36" r="2.3"/><circle cx="39.94" cy="29.36" r="2.3"/><circle cx="45.35" cy="29.36" r="2.3"/><circle cx="50.76" cy="29.36" r="2.3"/><circle cx="56.17" cy="29.36" r="2.3"/><circle cx="61.58" cy="29.36" r="2.3"/><circle cx="66.99" cy="29.36" r="2.3"/><circle cx="72.4" cy="29.36" r="2.3"/><circle cx="77.81" cy="29.36" r="2.3"/><circle cx="83.22" cy="29.36" r="2.3"/><circle cx="88.63" cy="29.36" r="2.3"/><circle cx="94.05" cy="29.36" r="2.3"/><circle cx="99.46" cy="29.36" r="2.3"/><circle cx="2.3" cy="34.77" r="2.3"/><circle cx="7.71" cy="34.77" r="2.3"/><circle cx="13.12" cy="34.77" r="2.3"/><circle cx="18.54" cy="34.77" r="2.3"/><circle cx="23.71" cy="34.77" r="2.3"/><circle cx="29.12" cy="34.77" r="2.3"/><circle cx="34.53" cy="34.77" r="2.3"/><circle cx="39.94" cy="34.77" r="2.3"/><circle cx="45.35" cy="34.77" r="2.3"/><circle cx="50.76" cy="34.77" r="2.3"/><circle cx="56.17" cy="34.77" r="2.3"/><circle cx="61.58" cy="34.77" r="2.3"/><circle cx="66.99" cy="34.77" r="2.3"/><circle cx="72.4" cy="34.77" r="2.3"/><circle cx="77.81" cy="34.77" r="2.3"/><circle cx="83.22" cy="34.77" r="2.3"/><circle cx="88.63" cy="34.77" r="2.3"/><circle cx="94.05" cy="34.77" r="2.3"/><circle cx="99.46" cy="34.77" r="2.3"/><circle cx="104.72" cy="34.77" r="2.3"/><circle cx="2.3" cy="40.18" r="2.3"/><circle cx="7.71" cy="40.18" r="2.3"/><circle cx="13.12" cy="40.18" r="2.3"/><circle cx="18.54" cy="40.18" r="2.3"/><circle cx="23.71" cy="40.18" r="2.3"/><circle cx="29.12" cy="40.18" r="2.3"/><circle cx="34.53" cy="40.18" r="2.3"/><circle cx="39.94" cy="40.18" r="2.3"/><circle cx="45.35" cy="40.18" r="2.3"/><circle cx="50.76" cy="40.18" r="2.3"/><circle cx="56.17" cy="40.18" r="2.3"/><circle cx="61.58" cy="40.18" r="2.3"/><circle cx="66.99" cy="40.18" r="2.3"/><circle cx="72.4" cy="40.18" r="2.3"/><circle cx="77.81" cy="40.18" r="2.3"/><circle cx="83.22" cy="40.18" r="2.3"/><circle cx="88.63" cy="40.18" r="2.3"/><circle cx="94.05" cy="40.18" r="2.3"/><circle cx="99.46" cy="40.18" r="2.3"/><circle cx="72.4" cy="45.59" r="2.3"/><circle cx="77.81" cy="45.59" r="2.3"/><circle cx="83.22" cy="45.59" r="2.3"/><circle cx="88.63" cy="45.59" r="2.3"/><circle cx="66.99" cy="51" r="2.3"/><circle cx="72.4" cy="51" r="2.3"/><circle cx="77.81" cy="51" r="2.3"/><circle cx="56.17" cy="56.41" r="2.3"/><circle cx="61.58" cy="56.41" r="2.3"/><circle cx="66.99" cy="56.41" r="2.3"/><circle cx="72.4" cy="56.41" r="2.3"/><circle cx="77.81" cy="56.41" r="2.3"/><circle cx="56.17" cy="61.82" r="2.3"/><circle cx="61.58" cy="61.82" r="2.3"/><circle cx="66.99" cy="61.82" r="2.3"/><circle cx="72.4" cy="61.82" r="2.3"/><circle cx="66.99" cy="67.23" r="2.3"/><circle cx="72.4" cy="67.23" r="2.3"/></svg>';
 
-      const x = e.clientX;
-      const w = window.innerWidth;
-
-      if (x > w * 0.65) {
-        goToSlide(currentSlide + 1);
-      } else if (x < w * 0.25) {
-        goToSlide(currentSlide - 1);
-      }
+  function buildNavArrows() {
+    var prev = document.createElement('button');
+    prev.className = 'slide-nav-arrow slide-nav-prev';
+    prev.setAttribute('aria-label', 'Vorheriger Slide');
+    prev.innerHTML = arrowSvgStr;
+    prev.addEventListener('click', function (e) {
+      e.stopPropagation();
+      goToSlide(currentSlide - 1);
     });
+
+    var next = document.createElement('button');
+    next.className = 'slide-nav-arrow slide-nav-next';
+    next.setAttribute('aria-label', 'Nächster Slide');
+    next.innerHTML = arrowSvgStr;
+    next.addEventListener('click', function (e) {
+      e.stopPropagation();
+      goToSlide(currentSlide + 1);
+    });
+
+    document.body.appendChild(prev);
+    document.body.appendChild(next);
   }
 
   // -----------------------------------------------------------
@@ -700,7 +709,7 @@
     buildSlides(project);
     buildGridPagination();
     initKeyboard();
-    initClickAreas();
+    buildNavArrows();
     initSwipe();
     window.addEventListener('resize', onStepResize);
   }
