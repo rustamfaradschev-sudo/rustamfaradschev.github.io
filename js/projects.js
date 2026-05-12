@@ -67,8 +67,8 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
       },
       {
         layout: "stack-right",
+        leftSlideshow: true,
         leftImages: [
-          "assets/projects/forest-souvenirs/03_L1.png",
           "assets/projects/forest-souvenirs/03_L2.png",
           "assets/projects/forest-souvenirs/03_L3.png",
           "assets/projects/forest-souvenirs/03_L4.png",
@@ -77,10 +77,10 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
           "assets/projects/forest-souvenirs/03_L7.png",
           "assets/projects/forest-souvenirs/03_L8.png",
           "assets/projects/forest-souvenirs/03_L9.png",
-          "assets/projects/forest-souvenirs/03_L10.png"
+          "assets/projects/forest-souvenirs/03_L10.png",
+          "assets/projects/forest-souvenirs/03_L1.png"
         ],
         leftCaptions: [
-          null,
           "Finn de Bruyn",
           "Melanie Gloria Wisser",
           "Hannah Adam",
@@ -89,7 +89,8 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
           "Finn Baygan",
           "Johannes Bauer",
           "Sabine & Timm Adam",
-          "Arthur Hanstein"
+          "Arthur Hanstein",
+          null
         ],
         src: "assets/projects/forest-souvenirs/03_R1.jpg"
       },

@@ -518,6 +518,43 @@ body.projects-page nav a.active {
   margin-top: -8px;
 }
 
+/* sr-left als Auto-Slideshow */
+.slide-stack-right--slideshow .sr-left {
+  overflow: hidden;
+  position: relative;
+}
+
+.sr-slideshow-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: calc(100% - 2 * var(--border));
+  max-height: calc(100vh - 2 * var(--border));
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.sr-slideshow-img.active {
+  opacity: 1;
+}
+
+.slide-stack-right--slideshow .sr-left-caption {
+  position: absolute;
+  bottom: var(--border);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.5s ease;
+}
+
+.slide-stack-right--slideshow .sr-left-caption.active {
+  opacity: 0.5;
+}
+
 .sr-right {
   flex: 0 0 65%;
   height: 100vh;
