@@ -349,8 +349,13 @@
         }
         if (entry.layout === 'imageshow') {
           var arrowSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.02 69.54" aria-hidden="true"><circle cx="66.99" cy="2.3" r="2.3"/><circle cx="72.4" cy="2.3" r="2.3"/><circle cx="56.17" cy="7.71" r="2.3"/><circle cx="61.58" cy="7.71" r="2.3"/><circle cx="66.99" cy="7.71" r="2.3"/><circle cx="72.4" cy="7.71" r="2.3"/><circle cx="61.58" cy="13.12" r="2.3"/><circle cx="66.99" cy="13.12" r="2.3"/><circle cx="72.4" cy="13.12" r="2.3"/><circle cx="77.81" cy="13.12" r="2.3"/><circle cx="66.99" cy="18.54" r="2.3"/><circle cx="72.4" cy="18.54" r="2.3"/><circle cx="77.81" cy="18.54" r="2.3"/><circle cx="72.4" cy="23.95" r="2.3"/><circle cx="77.81" cy="23.95" r="2.3"/><circle cx="83.22" cy="23.95" r="2.3"/><circle cx="88.63" cy="23.95" r="2.3"/><circle cx="2.3" cy="29.36" r="2.3"/><circle cx="7.71" cy="29.36" r="2.3"/><circle cx="13.12" cy="29.36" r="2.3"/><circle cx="18.54" cy="29.36" r="2.3"/><circle cx="23.71" cy="29.36" r="2.3"/><circle cx="29.12" cy="29.36" r="2.3"/><circle cx="34.53" cy="29.36" r="2.3"/><circle cx="39.94" cy="29.36" r="2.3"/><circle cx="45.35" cy="29.36" r="2.3"/><circle cx="50.76" cy="29.36" r="2.3"/><circle cx="56.17" cy="29.36" r="2.3"/><circle cx="61.58" cy="29.36" r="2.3"/><circle cx="66.99" cy="29.36" r="2.3"/><circle cx="72.4" cy="29.36" r="2.3"/><circle cx="77.81" cy="29.36" r="2.3"/><circle cx="83.22" cy="29.36" r="2.3"/><circle cx="88.63" cy="29.36" r="2.3"/><circle cx="94.05" cy="29.36" r="2.3"/><circle cx="99.46" cy="29.36" r="2.3"/><circle cx="2.3" cy="34.77" r="2.3"/><circle cx="7.71" cy="34.77" r="2.3"/><circle cx="13.12" cy="34.77" r="2.3"/><circle cx="18.54" cy="34.77" r="2.3"/><circle cx="23.71" cy="34.77" r="2.3"/><circle cx="29.12" cy="34.77" r="2.3"/><circle cx="34.53" cy="34.77" r="2.3"/><circle cx="39.94" cy="34.77" r="2.3"/><circle cx="45.35" cy="34.77" r="2.3"/><circle cx="50.76" cy="34.77" r="2.3"/><circle cx="56.17" cy="34.77" r="2.3"/><circle cx="61.58" cy="34.77" r="2.3"/><circle cx="66.99" cy="34.77" r="2.3"/><circle cx="72.4" cy="34.77" r="2.3"/><circle cx="77.81" cy="34.77" r="2.3"/><circle cx="83.22" cy="34.77" r="2.3"/><circle cx="88.63" cy="34.77" r="2.3"/><circle cx="94.05" cy="34.77" r="2.3"/><circle cx="99.46" cy="34.77" r="2.3"/><circle cx="104.72" cy="34.77" r="2.3"/><circle cx="2.3" cy="40.18" r="2.3"/><circle cx="7.71" cy="40.18" r="2.3"/><circle cx="13.12" cy="40.18" r="2.3"/><circle cx="18.54" cy="40.18" r="2.3"/><circle cx="23.71" cy="40.18" r="2.3"/><circle cx="29.12" cy="40.18" r="2.3"/><circle cx="34.53" cy="40.18" r="2.3"/><circle cx="39.94" cy="40.18" r="2.3"/><circle cx="45.35" cy="40.18" r="2.3"/><circle cx="50.76" cy="40.18" r="2.3"/><circle cx="56.17" cy="40.18" r="2.3"/><circle cx="61.58" cy="40.18" r="2.3"/><circle cx="66.99" cy="40.18" r="2.3"/><circle cx="72.4" cy="40.18" r="2.3"/><circle cx="77.81" cy="40.18" r="2.3"/><circle cx="83.22" cy="40.18" r="2.3"/><circle cx="88.63" cy="40.18" r="2.3"/><circle cx="94.05" cy="40.18" r="2.3"/><circle cx="99.46" cy="40.18" r="2.3"/><circle cx="72.4" cy="45.59" r="2.3"/><circle cx="77.81" cy="45.59" r="2.3"/><circle cx="83.22" cy="45.59" r="2.3"/><circle cx="88.63" cy="45.59" r="2.3"/><circle cx="66.99" cy="51" r="2.3"/><circle cx="72.4" cy="51" r="2.3"/><circle cx="77.81" cy="51" r="2.3"/><circle cx="56.17" cy="56.41" r="2.3"/><circle cx="61.58" cy="56.41" r="2.3"/><circle cx="66.99" cy="56.41" r="2.3"/><circle cx="72.4" cy="56.41" r="2.3"/><circle cx="77.81" cy="56.41" r="2.3"/><circle cx="56.17" cy="61.82" r="2.3"/><circle cx="61.58" cy="61.82" r="2.3"/><circle cx="66.99" cy="61.82" r="2.3"/><circle cx="72.4" cy="61.82" r="2.3"/><circle cx="66.99" cy="67.23" r="2.3"/><circle cx="72.4" cy="67.23" r="2.3"/></svg>';
+          var hasCaptions = entry.captions && entry.captions.some(Boolean);
           var isImgs = entry.images.map(function (src, i) {
-            return `<img src="${src}" alt="${project.title}" class="imgshow-img${i === 0 ? ' active' : ''}" onerror="this.style.opacity='0.2'">`;
+            var caption = entry.captions && entry.captions[i];
+            var captionHtml = hasCaptions
+              ? `<span class="imgshow-caption${i === 0 ? ' active' : ''}">${caption || ''}</span>`
+              : '';
+            return `<img src="${src}" alt="${project.title}" class="imgshow-img${i === 0 ? ' active' : ''}" onerror="this.style.opacity='0.2'">${captionHtml}`;
           }).join('');
           return `
         <section id="slide-${num}" class="slide slide-imgshow">
@@ -462,12 +467,15 @@
 
     // Imageshow: Pfeil-Navigation initialisieren
     w.querySelectorAll('.slide-imgshow').forEach(function (section) {
-      var imgs = section.querySelectorAll('.imgshow-img');
+      var imgs     = section.querySelectorAll('.imgshow-img');
+      var captions = section.querySelectorAll('.imgshow-caption');
       var idx  = 0;
       function show(i) {
         imgs[idx].classList.remove('active');
+        if (captions[idx]) captions[idx].classList.remove('active');
         idx = (i + imgs.length) % imgs.length;
         imgs[idx].classList.add('active');
+        if (captions[idx]) captions[idx].classList.add('active');
       }
       section.querySelector('.imgshow-next').addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
       section.querySelector('.imgshow-prev').addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });

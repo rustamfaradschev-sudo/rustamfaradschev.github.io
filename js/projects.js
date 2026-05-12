@@ -66,12 +66,29 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
         ]
       },
       {
-        layout: "stack-right",
-        leftImages: [
+        layout: "imageshow",
+        images: [
           "assets/projects/forest-souvenirs/03_L1.png",
-          "assets/projects/forest-souvenirs/03_L2.png"
+          "assets/projects/forest-souvenirs/03_L2.png",
+          "assets/projects/forest-souvenirs/03_L3.png",
+          "assets/projects/forest-souvenirs/03_L4.png",
+          "assets/projects/forest-souvenirs/03_L5.png",
+          "assets/projects/forest-souvenirs/03_L6.png",
+          "assets/projects/forest-souvenirs/03_L7.png",
+          "assets/projects/forest-souvenirs/03_L8.png",
+          "assets/projects/forest-souvenirs/03_8.png"
         ],
-        src: "assets/projects/forest-souvenirs/03_R1.jpg"
+        captions: [
+          null,
+          "Melanie Gloria Wisser",
+          "Hannah Adam",
+          "Florian Knöbl",
+          "Erik Grunder",
+          "Finn Baygan",
+          "Johannes Bauer",
+          "Sabine & Timm Adam",
+          "Arthur Hanstein"
+        ]
       },
       {
         layout: "imageshow",

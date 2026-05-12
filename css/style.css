@@ -681,6 +681,24 @@ body.projects-page nav a.active {
   transform: scaleX(-1) translateX(10px);
 }
 
+.imgshow-caption {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--fs-nav);
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.imgshow-caption.active {
+  opacity: 0.5;
+}
+
 .slide.active.slide-table {
   position: relative;
   overflow: hidden;
