@@ -494,7 +494,7 @@
         idx = (idx + 1) % imgs.length;
         imgs[idx].classList.add('active');
         if (captions[idx]) captions[idx].classList.add('active');
-      }, 1500);
+      }, 2000);
     });
 
     // Imageshow: Pfeil-Navigation initialisieren

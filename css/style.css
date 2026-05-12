@@ -529,8 +529,8 @@ body.projects-page nav a.active {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: calc(100% - 2 * var(--border));
-  max-height: calc(100vh - 2 * var(--border));
+  max-width: calc(90% - 2 * var(--border));
+  max-height: calc(90vh - 2 * var(--border));
   object-fit: contain;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -542,7 +542,7 @@ body.projects-page nav a.active {
 
 .slide-stack-right--slideshow .sr-left-caption {
   position: absolute;
-  bottom: var(--border);
+  top: var(--border);
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
