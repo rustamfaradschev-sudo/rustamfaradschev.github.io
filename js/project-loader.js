@@ -261,11 +261,11 @@
     document.querySelectorAll('.dot-link').forEach(function (d) { d.classList.remove('dot-link'); });
     if (window.gridAPI) window.gridAPI.resetAll();
 
-    // Auf Mobile: Dot-Reihe 1 (Index 1) nach resetAll() wieder verstecken
+    // Auf Mobile: Top-Row-Dots nach resetAll() wieder verstecken
     if (window.innerWidth <= 900 && window.gridAPI) {
       var mCols = window.gridAPI.getCols();
       for (var mc = 0; mc < mCols; mc++) {
-        var md = window.gridAPI.getDot(1, mc);
+        var md = window.gridAPI.getDot(0, mc);
         if (md) md.style.opacity = '0';
       }
     }
@@ -542,18 +542,21 @@
     var cols     = (window.gridAPI && window.gridAPI.getCols()) || 15;
     var spacingX = (window.innerWidth - 2 * border) / (cols - 1);
     var isMobile = window.innerWidth <= 900;
+    var dotY     = border;
 
-    // Desktop: Labels auf Reihe 0 (y = border)
-    // Mobile:  Labels zwischen Reihe 1 und Reihe 3 → y-Position von Dot-Reihe 2 (Index 1)
-    var dotY = border;
+    // Mobile: x-Bereich von echtem linken bis rechten Dot lesen
+    var mobileLeft  = border;
+    var mobileRight = window.innerWidth - border;
     if (isMobile && window.gridAPI) {
-      var row1dot = window.gridAPI.getDot(1, 0);
-      if (row1dot) dotY = parseFloat(row1dot.style.top);
+      var dL = window.gridAPI.getDot(0, 0);
+      var dR = window.gridAPI.getDot(0, cols - 1);
+      if (dL) mobileLeft  = parseFloat(dL.style.left);
+      if (dR) mobileRight = parseFloat(dR.style.left);
     }
 
     for (var i = 0; i < TOTAL_SLIDES; i++) {
-      var dotX    = isMobile
-        ? border + (i / (TOTAL_SLIDES - 1)) * (window.innerWidth - 2 * border)
+      var dotX = isMobile
+        ? mobileLeft + (i / Math.max(TOTAL_SLIDES - 1, 1)) * (mobileRight - mobileLeft)
         : border + i * spacingX;
       var isFirst = (i === 0);
 
@@ -600,11 +603,11 @@
       }
     }
 
-    // Auf Mobile: Dot-Reihe 1 (Index 1) verstecken — Labels liegen dort
+    // Auf Mobile: Top-Row-Dots verstecken — Labels liegen auf derselben y-Position
     if (isMobile && window.gridAPI) {
       var totalCols = window.gridAPI.getCols();
       for (var c = 0; c < totalCols; c++) {
-        var d = window.gridAPI.getDot(1, c);
+        var d = window.gridAPI.getDot(0, c);
         if (d) d.style.opacity = '0';
       }
     }
