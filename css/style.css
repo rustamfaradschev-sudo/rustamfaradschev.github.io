@@ -1285,6 +1285,11 @@ body.slide-fullframe .slide-5-overlay {
     padding: var(--border);
   }
 
+  .slide-stack-right--slideshow .sr-left .sr-slideshow-img {
+    max-height: calc(55vh - 2 * var(--border));
+    max-width: calc(100% - 2 * var(--border));
+  }
+
   .sr-right {
     flex: none;
     width: 100%;
