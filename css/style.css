@@ -535,6 +535,11 @@ body.projects-page nav a.active {
   object-fit: contain;
 }
 
+[data-project="strahling"]#slide-1 .slide1-img {
+  width: 85%;
+  align-self: center;
+}
+
 [data-project="strahling"]#slide-3 .slide-centered-img {
   animation: spin 12s linear infinite;
 }
