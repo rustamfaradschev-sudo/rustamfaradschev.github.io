@@ -132,16 +132,16 @@
       navRows[0].style.bottom       = '';
       navRows[0].style.height       = border + 'px';
       navRows[0].style.transform    = '';
-      navRows[0].style.paddingLeft  = border + 'px';
-      navRows[0].style.paddingRight = border + 'px';
+      navRows[0].style.paddingLeft  = borderX + 'px';
+      navRows[0].style.paddingRight = borderX + 'px';
     }
     if (navRows[1]) {
       navRows[1].style.bottom       = '0';
       navRows[1].style.top          = '';
       navRows[1].style.height       = border + 'px';
       navRows[1].style.transform    = '';
-      navRows[1].style.paddingLeft  = border + 'px';
-      navRows[1].style.paddingRight = border + 'px';
+      navRows[1].style.paddingLeft  = borderX + 'px';
+      navRows[1].style.paddingRight = borderX + 'px';
     }
   }
 

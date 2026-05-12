@@ -1,10 +1,11 @@
 (function () {
   'use strict';
 
-  var isMobile = window.innerWidth <= 900;
-  var COLS   = isMobile ? 3  : 15;
-  var ROWS   = isMobile ? 7  : 8;
-  var BORDER = isMobile ? 40 : 80;
+  var isMobile  = window.innerWidth <= 900;
+  var COLS      = isMobile ? 3  : 15;
+  var ROWS      = isMobile ? 7  : 8;
+  var BORDER    = isMobile ? 40 : 80;   // vertikal + allgemein
+  var BORDER_X  = isMobile ? 56 : 80;   // horizontal (Dots weiter innen auf Mobile)
   var W = window.innerWidth;
   var H = window.innerHeight;
 
@@ -14,8 +15,8 @@
       for (var c = 0; c < COLS; c++) {
         var d = document.createElement('div');
         d.className = 'transition-dot';
-        d.style.left = (BORDER + c * (W - 2 * BORDER) / Math.max(COLS - 1, 1)) + 'px';
-        d.style.top  = (BORDER + r * (H - 2 * BORDER) / Math.max(ROWS - 1, 1)) + 'px';
+        d.style.left = (BORDER_X + c * (W - 2 * BORDER_X) / Math.max(COLS - 1, 1)) + 'px';
+        d.style.top  = (BORDER   + r * (H - 2 * BORDER)   / Math.max(ROWS - 1, 1)) + 'px';
         frag.appendChild(d);
       }
     }
