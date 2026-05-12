@@ -591,9 +591,10 @@
   // Splash + Page-Out: weiße Gitterpunkte generieren
   (function () {
     var isMobile = window.innerWidth <= 900;
-    var COLS   = isMobile ? 3  : 15;
-    var ROWS   = isMobile ? 7  : 8;
-    var BORDER = isMobile ? 40 : 80;
+    var COLS     = isMobile ? 3  : 15;
+    var ROWS     = isMobile ? 7  : 8;
+    var BORDER   = isMobile ? 40 : 80;
+    var BORDER_X = isMobile ? 56 : 80;
     var W = window.innerWidth;
     var H = window.innerHeight;
 
@@ -603,8 +604,8 @@
         for (var c = 0; c < COLS; c++) {
           var dot = document.createElement('div');
           dot.className = 'splash-dot';
-          dot.style.left = (BORDER + c * (W - 2 * BORDER) / Math.max(COLS - 1, 1)) + 'px';
-          dot.style.top  = (BORDER + r * (H - 2 * BORDER) / Math.max(ROWS - 1, 1)) + 'px';
+          dot.style.left = (BORDER_X + c * (W - 2 * BORDER_X) / Math.max(COLS - 1, 1)) + 'px';
+          dot.style.top  = (BORDER   + r * (H - 2 * BORDER)   / Math.max(ROWS - 1, 1)) + 'px';
           frag.appendChild(dot);
         }
       }
