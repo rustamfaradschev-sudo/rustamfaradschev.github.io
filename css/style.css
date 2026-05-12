@@ -1168,6 +1168,18 @@ body.slide-fullframe .slide-5-overlay {
     padding: 0;
   }
 
+  /* === CONTACT — zentriert, kein Hintergrundrechteck === */
+  .contact-shield {
+    background: none;
+    padding: 0;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .contact-line {
+    text-align: center;
+  }
+
   .about-portrait {
     flex: unset;
     max-width: 80%;
