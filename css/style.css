@@ -1163,6 +1163,11 @@ body.slide-fullframe .slide-5-overlay {
     padding-top: 30px;
   }
 
+  .about-shield {
+    background: none;
+    padding: 0;
+  }
+
   .about-portrait {
     flex: unset;
     max-width: 80%;
