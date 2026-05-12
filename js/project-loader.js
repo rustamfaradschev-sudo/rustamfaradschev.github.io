@@ -724,8 +724,10 @@
       return;
     }
 
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
+    if (window.innerWidth > 900) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
 
     currentSlug = slug;
     TOTAL_SLIDES = project.slides.length;
