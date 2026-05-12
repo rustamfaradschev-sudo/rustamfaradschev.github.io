@@ -118,7 +118,7 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
     title: "Strahling",
     year: "2023",
     icon: "assets/projects/strahling/icon.svg",
-    description: `Developed in 2023 using 3D printing, Strahling is inspired by the work of Ernst Haeckel, especially Kunstformen der Natur (eng. Art Forms in Nature). Haeckel's illustrations of radiolarians reveal microscopic worlds filled with intricate geometry, radial symmetry, and almost otherworldly precision. Their delicate yet highly efficient structures became the starting point for the lamp's design. Drawing from these ancient marine organisms, Strahling transforms patterns shaped by millions of years of evolution into a contemporary object. The design reflects the intelligence and beauty found in nature, translating microscopic biodiversity into a playful and atmospheric lighting experience.`,
+    description: `Developed in 2023 using 3D printing, Strahling is inspired by the work of Ernst Haeckel, especially Kunstformen der Natur (Art Forms in Nature). Haeckel's illustrations of radiolarians reveal microscopic worlds filled with intricate geometry, radial symmetry, and almost otherworldly precision. Their delicate yet highly efficient structures became the starting point for the lamp's design. Drawing from these ancient marine organisms, Strahling transforms patterns shaped by millions of years of evolution into a contemporary object. The design reflects the intelligence and beauty found in nature, translating microscopic biodiversity into a playful and atmospheric lighting experience.`,
     slides: [
       "assets/projects/strahling/01.png",
       "assets/projects/strahling/02.jpg",

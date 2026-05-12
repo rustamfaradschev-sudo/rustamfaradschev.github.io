@@ -1312,6 +1312,13 @@ body.slide-fullframe .slide-5-overlay {
 
   .sr-right-img { max-height: 50vh; }
 
+  /* === STRAHLING — Querformat-Bilder auf Mobile volle Breite === */
+  [data-project="strahling"]#slide-3 .slide-centered-img,
+  [data-project="strahling"]#slide-4 .slide-centered-img {
+    width: 100%;
+    max-height: unset;
+  }
+
   /* === TABLE-LAYOUT — statisches Raster auf Mobile === */
   .slide-table-static {
     display: flex;
