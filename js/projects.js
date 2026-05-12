@@ -66,8 +66,8 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
         ]
       },
       {
-        layout: "imageshow",
-        images: [
+        layout: "stack-right",
+        leftImages: [
           "assets/projects/forest-souvenirs/03_L1.png",
           "assets/projects/forest-souvenirs/03_L2.png",
           "assets/projects/forest-souvenirs/03_L3.png",
@@ -78,7 +78,7 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
           "assets/projects/forest-souvenirs/03_L8.png",
           "assets/projects/forest-souvenirs/03_8.png"
         ],
-        captions: [
+        leftCaptions: [
           null,
           "Melanie Gloria Wisser",
           "Hannah Adam",
@@ -88,7 +88,8 @@ Ultimately, the project reframes everyday objects as evolving, personal artifact
           "Johannes Bauer",
           "Sabine & Timm Adam",
           "Arthur Hanstein"
-        ]
+        ],
+        src: "assets/projects/forest-souvenirs/03_R1.jpg"
       },
       {
         layout: "imageshow",

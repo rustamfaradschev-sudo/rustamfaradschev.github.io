@@ -420,8 +420,10 @@
         </section>`;
         }
         if (entry.layout === 'stack-right') {
-          var leftImgs = (entry.leftImages || []).map(function (src) {
-            return imgTag(src, project.title, 'sr-left-img');
+          var leftImgs = (entry.leftImages || []).map(function (src, i) {
+            var caption = entry.leftCaptions && entry.leftCaptions[i];
+            var captionHtml = caption ? `<span class="sr-left-caption">${caption}</span>` : '';
+            return imgTag(src, project.title, 'sr-left-img') + captionHtml;
           }).join('');
           return `
         <section id="slide-${num}" class="slide slide-stack-right">
