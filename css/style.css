@@ -675,6 +675,7 @@ body.projects-page nav a.active {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding-top: var(--border);
 }
 
 .imgshow-display {
@@ -715,12 +716,12 @@ body.projects-page nav a.active {
   overflow: visible;
 }
 
-.imgshow-btn svg circle {
+.imgshow-btn svg path {
   fill: var(--color-text);
   transition: fill 0.3s ease;
 }
 
-.imgshow-btn:hover svg circle {
+.imgshow-btn:hover svg path {
   fill: var(--color-accent);
 }
 
