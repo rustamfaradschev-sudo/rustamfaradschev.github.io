@@ -397,11 +397,13 @@ body.projects-page nav a.active {
 }
 
 .slide-text-right {
-  flex: 1;
+  flex: 0 1 auto;
+  align-self: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 40px;
+  background: #ffffff;
+  padding: 28px 36px;
 }
 
 /* Projekttitel groß */
@@ -631,6 +633,13 @@ body.projects-page nav a.active {
   justify-content: space-between;
   flex-wrap: nowrap;
   margin-bottom: 50px;
+  background: #ffffff;
+  padding: 12px 20px 8px;
+}
+
+.slide1-desc {
+  background: #ffffff;
+  padding: 0 20px 16px;
 }
 
 .slide-1-right .project-title-large {
